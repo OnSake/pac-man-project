@@ -15,9 +15,16 @@ class Fantome:
         self.__respawn__ = respawn
         self.__orientation__ = orientation
         self.__malade__ = False 
+        self.__finish_heal__ = False
 
 
     #-------- Get et Set --------#
+    def get_finish_heal(self):
+        return self.__finish_heal__
+    
+    def set_finish_heal(self, valeur):
+        self.__finish_heal__ = valeur
+
     def get_malade(self):
         return self.__malade__
     
@@ -74,9 +81,18 @@ class Fantome:
             elif self.get_couleur() == 'pink':
                 fenetre.blit(fantome[3], (self.get_posx(), self.get_posy()))
         else : 
-            fenetre.blit(fantome[4], (self.get_posx(), self.get_posy()))
+            if self.get_finish_heal():
+                fenetre.blit(fantome[4], (self.get_posx(), self.get_posy()))
+                fenetre.blit(fantome[5], (self.get_posx(), self.get_posy()))
+            else : fenetre.blit(fantome[4], (self.get_posx(), self.get_posy()))
         
         pygame.display.flip()
+
+
+    def finish_heal(self):
+
+        self.set_finish_heal(False)
+        self.set_malade(False)
 
 
     def add_posx(self, valeur):
@@ -91,10 +107,16 @@ class Fantome:
     def min_posy(self, valeur):
         self.set_posy(self.get_posy() - valeur)
 
+
+
+
+
+
 fantome_1 = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/red.gif'), (25, 25))
 fantome_2 = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/orange.gif'), (25, 25))
 fantome_3 = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/blue.gif'), (25, 25))
 fantome_4 = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/pink.gif'), (25, 25))
 fantome_malade = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/malade.gif'), (25, 25))
+fantome_malade_finish = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/malade_finish.gif'), (25, 25))
 
-fantome = [fantome_1, fantome_2, fantome_3, fantome_4, fantome_malade]
+fantome = [fantome_1, fantome_2, fantome_3, fantome_4, fantome_malade, fantome_malade_finish]

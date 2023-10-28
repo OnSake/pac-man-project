@@ -76,7 +76,9 @@ class Pacman:
     #-------- Méthodes --------#
 
     def draw(self, surface):
-        if self.get_orientation() == "right" or self.get_orientation() == "None":
+        if self.get_orientation() == "None":
+            surface.blit(pac_man_img_neutre, (self.get_posx(), self.get_posy()))
+        elif self.get_orientation() == "right":
             surface.blit(pac_man_img, (self.get_posx(), self.get_posy()))
         elif self.get_orientation() == "top":
             surface.blit(pygame.transform.rotate(pac_man_img, 90), (self.get_posx(), self.get_posy()))
@@ -110,10 +112,12 @@ class Pacman:
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 
-        print("Droite : " + str(map[self.get_posy()//num1][(self.get_posx() + 15) // num2]),"Gauche :" + str(map[self.get_posy()//num1][(self.get_posx() - 15) // num2]), "Haut : " + str(map[(self.get_posy() - 15)//num1][self.get_posx() // num2]), "Bas : " + str(map[(self.get_posy() + 15)//num1][self.get_posx() // num2]))
-
-        print(self.get_collision(2), self.get_collision(0), self.get_collision(1), self.get_collision(3))
-
+        #if self.get_posy()%30 == 0 and self.get_posx()%30:
+        self.set_collision(0, False)
+        self.set_collision(1, False)
+        self.set_collision(2, False)
+        self.set_collision(3, False)
+    
         if self.get_orientation() == "right":
             if self.get_posx() < 850: #Pour éviter le "out of range"
                 if map[self.get_posy()//num1][(self.get_posx() + 30) // num2] < 3:
@@ -121,7 +125,7 @@ class Pacman:
                 else : self.__check_collision__[2] = False
 
         elif self.get_orientation() == "left":
-            if map[self.get_posy()//num1][(self.get_posx() - 30) // num2] < 3:
+            if map[self.get_posy()//num1][(self.get_posx() - 15) // num2] < 3:
                 self.set_collision(0, True)
             else : self.__check_collision__[0] = False
 
@@ -134,15 +138,26 @@ class Pacman:
             if map[(self.get_posy() + 30)//num1][self.get_posx() // num2] < 3:
                 self.set_collision(3, True)
             else : self.__check_collision__[3] = False
-    
+
+
     def check_score(self, ecran, map):
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 
-        if map[self.get_posy() // num1][self.get_posx() // num2] == 1:
-            self.set_score(1)
-            map[self.get_posy() // num1][self.get_posx() // num2] = 0
-        
+        if 0 < self.get_posx() < 900 : #Eviter le out of range
+            if map[self.get_posy() // num1][self.get_posx() // num2] == 1:
+                self.set_score(10)
+                map[self.get_posy() // num1][self.get_posx() // num2] = 0
+            
+    def check_malade(self, ecran, map):
+        num1 = ecran[1]//32
+        num2 = ecran[0]//30
+        if 0 < self.get_posx() < 900 : #Eviter le out of range
+            if map[self.get_posy() // num1][self.get_posx() // num2] == 2:
+                self.set_can_eat(True)
+                map[self.get_posy() // num1][self.get_posx() // num2] = 0
+    
+
 
        
 
@@ -162,4 +177,5 @@ class Pacman:
 
 
 
-pac_man_img = pygame.transform.scale(pygame.image.load(f'Texture/Pacman/1.png'), (30, 30))
+pac_man_img = pygame.transform.scale(pygame.image.load(f'Texture/Pacman/pacman.gif'), (30, 30))
+pac_man_img_neutre = pygame.transform.scale(pygame.image.load(f'Texture/Pacman/pac_man_neutre.gif'), (30, 30))

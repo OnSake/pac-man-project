@@ -9,9 +9,9 @@ from pygame.locals import *
 import sys
 import time
 from math import pi
-from PacmanClass import Pacman
+from Class.PacmanClass import Pacman
 from map_1 import map 
-from FantomeClass import Fantome
+from Class.FantomeClass import Fantome
 
 
 ecran = 900, 960
@@ -19,16 +19,16 @@ fenetre = pygame.display.set_mode(ecran)
 
 
 #---------- VARIABLE ----------#
-pac_man =  Pacman(1, 60, 60, 10)
+pac_man =  Pacman(1, 60, 60)
 fantome_red = Fantome(ecran[0]//2, ecran[1]//2, 0, 'red', (ecran[0]//2, ecran[1]//2), 'right')
 fantome_orange = Fantome(ecran[0]//2, ecran[1]//2, 0, 'orange', (ecran[0]//2, ecran[1]//2), 'right')
 fantome_blue = Fantome(ecran[0]//2, ecran[1]//2, 0, 'blue', (ecran[0]//2, ecran[1]//2), 'right')
 fantome_pink = Fantome(ecran[0]//2, ecran[1]//2, 0, 'pink', (ecran[0]//2, ecran[1]//2), 'right')
 fantomes = [fantome_red, fantome_orange, fantome_blue, fantome_pink]
 
-fantome_pink.set_malade(True)
 
-police = pygame.font.SysFont("alef" ,15)
+
+police = pygame.font.SysFont("alef" ,30)
 
 
 
@@ -54,34 +54,45 @@ def dessiner_map():
             pygame.draw.circle(fenetre, (255, 255, 255), (j * x_space + (x_space/2), i * y_space + (y_space/2)), 10)
 
         elif map_1[i][j] == 3:
-           pygame.draw.rect(fenetre, couleur_ligne, (j * x_space, i * y_space, 29, 29))
+           pygame.draw.rect(fenetre, couleur_ligne, (j * x_space, i * y_space, 30, 30))
 
-        elif map_1[i][j] == 9:
+        elif map_1[i][j] == 4:
                       pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))
 
 
-
-
+# ------------ GAME ------------#
 
 while True:
 
     fenetre.fill([0,0,0])
     dessiner_map()
-    image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 0, 0))
+    image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 255, 255))
 
     # fenetre.blit(image_pt_de_vie, (50, 50))
-    fenetre.blit(image_score, (100, 0))
+    fenetre.blit(image_score, (0, 0))
     pygame.display.flip()
+
+
 
     pac_man.check_collision(ecran, map_1)
     pac_man.move()
     pac_man.draw(fenetre)
     pac_man.check_score(ecran, map_1)
+    pac_man.check_malade(ecran, map_1)
+
+    if pac_man.get_can_eat():
+        for i in range(len(fantomes)):
+            fantomes[i].set_malade(True)
+            #fantomes[i].finish_heal()
+
 
     for i in range(len(fantomes)):
         fantomes[i].mvt()
         fantomes[i].draw(fenetre)
+ 
 
+
+ 
 
 
     # routine pour pouvoir fermer «proprement» la fenêtre Pygame
@@ -90,6 +101,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.display.quit()
             sys.exit()    
+
 
     # Bouger le PAC MAN
         elif event.type == KEYDOWN:
