@@ -19,12 +19,14 @@ fenetre = pygame.display.set_mode(ecran)
 
 
 #---------- VARIABLE ----------#
-pac_man =  Pacman(1, 57, 57, 10)
+pac_man =  Pacman(1, 60, 60, 10)
 fantome_red = Fantome(ecran[0]//2, ecran[1]//2, 0, 'red', (ecran[0]//2, ecran[1]//2), 'right')
 fantome_orange = Fantome(ecran[0]//2, ecran[1]//2, 0, 'orange', (ecran[0]//2, ecran[1]//2), 'right')
 fantome_blue = Fantome(ecran[0]//2, ecran[1]//2, 0, 'blue', (ecran[0]//2, ecran[1]//2), 'right')
 fantome_pink = Fantome(ecran[0]//2, ecran[1]//2, 0, 'pink', (ecran[0]//2, ecran[1]//2), 'right')
 fantomes = [fantome_red, fantome_orange, fantome_blue, fantome_pink]
+
+fantome_pink.set_malade(True)
 
 police = pygame.font.SysFont("alef" ,15)
 
@@ -52,7 +54,7 @@ def dessiner_map():
             pygame.draw.circle(fenetre, (255, 255, 255), (j * x_space + (x_space/2), i * y_space + (y_space/2)), 10)
 
         elif map_1[i][j] == 3:
-           pygame.draw.rect(fenetre, couleur_ligne, (j * x_space, i * y_space, 30, 30))
+           pygame.draw.rect(fenetre, couleur_ligne, (j * x_space, i * y_space, 29, 29))
 
         elif map_1[i][j] == 9:
                       pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))

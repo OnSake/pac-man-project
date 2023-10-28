@@ -162,4 +162,4 @@ class Pacman:
 
 
 
-pac_man_img = pygame.transform.scale(pygame.image.load(f'Texture/Pacman/1.png'), (35, 35))
+pac_man_img = pygame.transform.scale(pygame.image.load(f'Texture/Pacman/1.png'), (30, 30))

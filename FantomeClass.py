@@ -14,9 +14,16 @@ class Fantome:
         self.__couleur__ = couleur
         self.__respawn__ = respawn
         self.__orientation__ = orientation
+        self.__malade__ = False 
 
 
     #-------- Get et Set --------#
+    def get_malade(self):
+        return self.__malade__
+    
+    def set_malade(self, valeur):
+        self.__malade__ = valeur
+
     def get_posx (self):
         return self.__pos_x__
 
@@ -57,15 +64,18 @@ class Fantome:
 
     def draw(self, fenetre):
 
-        if self.get_couleur() == 'red':
-            fenetre.blit(fantome[0], (self.get_posx(), self.get_posy()))
-        elif self.get_couleur() == 'orange':
-            fenetre.blit(fantome[1], (self.get_posx(), self.get_posy()))
-        elif self.get_couleur() == 'blue':
-            fenetre.blit(fantome[2], (self.get_posx(), self.get_posy()))
-        elif self.get_couleur() == 'pink':
-            fenetre.blit(fantome[3], (self.get_posx(), self.get_posy()))
-
+        if self.get_malade() == False :
+            if self.get_couleur() == 'red':
+                fenetre.blit(fantome[0], (self.get_posx(), self.get_posy()))
+            elif self.get_couleur() == 'orange':
+                fenetre.blit(fantome[1], (self.get_posx(), self.get_posy()))
+            elif self.get_couleur() == 'blue':
+                fenetre.blit(fantome[2], (self.get_posx(), self.get_posy()))
+            elif self.get_couleur() == 'pink':
+                fenetre.blit(fantome[3], (self.get_posx(), self.get_posy()))
+        else : 
+            fenetre.blit(fantome[4], (self.get_posx(), self.get_posy()))
+        
         pygame.display.flip()
 
 
@@ -85,4 +95,6 @@ fantome_1 = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/red.gif')
 fantome_2 = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/orange.gif'), (25, 25))
 fantome_3 = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/blue.gif'), (25, 25))
 fantome_4 = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/pink.gif'), (25, 25))
-fantome = [fantome_1, fantome_2, fantome_3, fantome_4]
+fantome_malade = pygame.transform.scale(pygame.image.load(f'Texture/Fantome/malade.gif'), (25, 25))
+
+fantome = [fantome_1, fantome_2, fantome_3, fantome_4, fantome_malade]
