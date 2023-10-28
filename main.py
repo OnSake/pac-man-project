@@ -10,7 +10,7 @@ import sys
 import time
 from math import pi
 from Class.PacmanClass import Pacman
-from map_1 import map 
+from Class.MapClass import Map
 from Class.FantomeClass import Fantome
 
 
@@ -32,32 +32,8 @@ police = pygame.font.SysFont("alef" ,30)
 
 
 
-map_1 = map
-couleur_ligne = (120, 132, 240)
+map = Map(1, (120, 132, 240))
 
-
-
-# ------------ MAP ------------#
-def dessiner_map():
-   y_space = ecran[0]//30 #On crée des maps en 30x32 donc on divise la largeur de l'écran par 30
-   x_space = ecran[1]//32 #On crée des maps en 30x32 donc on divise la hauteur de l'écran par 32
-
-   #On lit le tableau par liste, puis par élément. Donc par ligne puis par colonne
-   for i in range(len(map_1)):
-      for j in range(len(map_1[i])):
-
-        if map_1[i][j] == 1:
-            pygame.draw.rect(fenetre, (0, 0, 0), (j * x_space, i * y_space, 30, 30))
-            pygame.draw.circle(fenetre, (255, 255, 255), (j * x_space + (x_space/2), i * y_space + (y_space/2)), 5) #Ici, on calcule la position de départ x et y et on ajoute la moitié pour que la boule soit centrée
-        elif map_1[i][j] == 2:
-            pygame.draw.rect(fenetre, (0, 0, 0), (j * x_space, i * y_space, 30, 30))
-            pygame.draw.circle(fenetre, (255, 255, 255), (j * x_space + (x_space/2), i * y_space + (y_space/2)), 10)
-
-        elif map_1[i][j] == 3:
-           pygame.draw.rect(fenetre, couleur_ligne, (j * x_space, i * y_space, 30, 30))
-
-        elif map_1[i][j] == 4:
-                      pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))
 
 
 # ------------ GAME ------------#
@@ -65,20 +41,19 @@ def dessiner_map():
 while True:
 
     fenetre.fill([0,0,0])
-    dessiner_map()
     image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 255, 255))
-
+    map.dessiner_map(ecran, fenetre)
     # fenetre.blit(image_pt_de_vie, (50, 50))
     fenetre.blit(image_score, (0, 0))
     pygame.display.flip()
 
 
 
-    pac_man.check_collision(ecran, map_1)
+    pac_man.check_collision(ecran, map.get_map_select())
     pac_man.move()
     pac_man.draw(fenetre)
-    pac_man.check_score(ecran, map_1)
-    pac_man.check_malade(ecran, map_1)
+    pac_man.check_score(ecran, map.get_map_select())
+    pac_man.check_malade(ecran, map.get_map_select())
 
     if pac_man.get_can_eat():
         for i in range(len(fantomes)):

@@ -2,7 +2,6 @@
 
 #--------------- PAC MAN ---------------#
 
-
 #---------- IMPORT ----------#
 
 import pygame 
@@ -10,7 +9,6 @@ pygame.init()
 from pygame.locals import *
 
 #---------- CLASS ----------#
-
 
 class Pacman:
     def __init__(self, vie, pos_x, pos_y, orientation = "None"):
