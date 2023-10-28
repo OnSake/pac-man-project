@@ -70,7 +70,7 @@ class Pacman:
         return self.__score__
 
     def set_score(self, valeur):
-        self.__score__ = valeur
+        self.__score__ += valeur
 
 
     #-------- Méthodes --------#
@@ -92,13 +92,13 @@ class Pacman:
         elif self.get_posx() > 920:
             self.set_posx(-30)
         if self.get_orientation() == "left" and self.get_collision(0):
-                self.min_posx(10)
+                self.min_posx(15)
         elif self.get_orientation() == "top" and self.get_collision(1):
-                self.min_posy(10)
+                self.min_posy(15)
         elif self.get_orientation() == "right" and self.get_collision(2):
-                self.add_posx(10)
+                self.add_posx(15)
         elif self.get_orientation() == "bottom" and self.get_collision(3):
-                self.add_posy(10)
+                self.add_posy(15)
         else:
             self.add_posx(0)
             self.add_posy(0)
@@ -110,29 +110,38 @@ class Pacman:
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 
-        if self.get_posx()%30 == 0 or self.get_posy()%32 == 0: #Vérifier que le player est au milieu d'une case
-            if self.get_orientation() == "right":
-                if self.get_posx() < 850: #Pour éviter le "out of range"
-                    if map[self.get_posy()//num1][(self.get_posx() + 30) // num2] < 3:
-                        self.set_collision(2, True)
-                    else : self.__check_collision__[2] = False
+        print("Droite : " + str(map[self.get_posy()//num1][(self.get_posx() + 15) // num2]),"Gauche :" + str(map[self.get_posy()//num1][(self.get_posx() - 15) // num2]), "Haut : " + str(map[(self.get_posy() - 15)//num1][self.get_posx() // num2]), "Bas : " + str(map[(self.get_posy() + 15)//num1][self.get_posx() // num2]))
 
-            elif self.get_orientation() == "left":
-                if map[self.get_posy()//num1][(self.get_posx() - 10) // num2] < 3:
-                    self.set_collision(0, True)
-                else : self.__check_collision__[0] = False
+        print(self.get_collision(2), self.get_collision(0), self.get_collision(1), self.get_collision(3))
 
-            elif self.get_orientation() == "top":
-                if map[(self.get_posy() - 10)//num1][self.get_posx() // num2] < 3:
-                    self.set_collision(1, True)
-                else : self.__check_collision__[1] = False
+        if self.get_orientation() == "right":
+            if self.get_posx() < 850: #Pour éviter le "out of range"
+                if map[self.get_posy()//num1][(self.get_posx() + 30) // num2] < 3:
+                    self.set_collision(2, True)
+                else : self.__check_collision__[2] = False
 
-            elif self.get_orientation() == "bottom":
-                if map[(self.get_posy() + 30)//num1][self.get_posx() // num2] < 3:
-                    self.set_collision(3, True)
-                else : self.__check_collision__[3] = False
-        
+        elif self.get_orientation() == "left":
+            if map[self.get_posy()//num1][(self.get_posx() - 30) // num2] < 3:
+                self.set_collision(0, True)
+            else : self.__check_collision__[0] = False
+
+        elif self.get_orientation() == "top":
+            if map[(self.get_posy() - 30)//num1][self.get_posx() // num2] < 3:
+                self.set_collision(1, True)
+            else : self.__check_collision__[1] = False
+
+        elif self.get_orientation() == "bottom":
+            if map[(self.get_posy() + 30)//num1][self.get_posx() // num2] < 3:
+                self.set_collision(3, True)
+            else : self.__check_collision__[3] = False
     
+    def check_score(self, ecran, map):
+        num1 = ecran[1]//32
+        num2 = ecran[0]//30
+
+        if map[self.get_posy() // num1][self.get_posx() // num2] == 1:
+            self.set_score(1)
+            map[self.get_posy() // num1][self.get_posx() // num2] = 0
         
 
        
@@ -153,4 +162,4 @@ class Pacman:
 
 
 
-pac_man_img = pygame.transform.scale(pygame.image.load(f'Texture/Pacman/1.png'), (30, 30))
+pac_man_img = pygame.transform.scale(pygame.image.load(f'Texture/Pacman/1.png'), (35, 35))

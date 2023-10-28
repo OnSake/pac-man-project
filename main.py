@@ -19,15 +19,15 @@ fenetre = pygame.display.set_mode(ecran)
 
 
 #---------- VARIABLE ----------#
-pac_man =  Pacman(1, 60, 60, 10)
-fantome_red = Fantome(60, 60, 0, 'red', (60, 60), 'right')
-fantome_orange = Fantome(60, 60, 0, 'orange', (60, 60), 'right')
-fantome_blue = Fantome(60, 60, 0, 'blue', (60, 60), 'right')
-fantome_pink = Fantome(60, 60, 0, 'pink', (60, 60), 'right')
+pac_man =  Pacman(1, 57, 57, 10)
+fantome_red = Fantome(ecran[0]//2, ecran[1]//2, 0, 'red', (ecran[0]//2, ecran[1]//2), 'right')
+fantome_orange = Fantome(ecran[0]//2, ecran[1]//2, 0, 'orange', (ecran[0]//2, ecran[1]//2), 'right')
+fantome_blue = Fantome(ecran[0]//2, ecran[1]//2, 0, 'blue', (ecran[0]//2, ecran[1]//2), 'right')
+fantome_pink = Fantome(ecran[0]//2, ecran[1]//2, 0, 'pink', (ecran[0]//2, ecran[1]//2), 'right')
 fantomes = [fantome_red, fantome_orange, fantome_blue, fantome_pink]
 
 police = pygame.font.SysFont("alef" ,15)
-image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 0, 0))
+
 
 
 map_1 = map
@@ -65,6 +65,8 @@ while True:
 
     fenetre.fill([0,0,0])
     dessiner_map()
+    image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 0, 0))
+
     # fenetre.blit(image_pt_de_vie, (50, 50))
     fenetre.blit(image_score, (100, 0))
     pygame.display.flip()
@@ -72,6 +74,7 @@ while True:
     pac_man.check_collision(ecran, map_1)
     pac_man.move()
     pac_man.draw(fenetre)
+    pac_man.check_score(ecran, map_1)
 
     for i in range(len(fantomes)):
         fantomes[i].mvt()
