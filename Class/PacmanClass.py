@@ -7,8 +7,8 @@
 import pygame 
 pygame.init()
 from pygame.locals import *
-
-time = pygame.time.Clock()
+import time
+#time = pygame.time.Clock()
 #---------- CLASS ----------#
 
 class Pacman:
@@ -160,12 +160,12 @@ class Pacman:
                 map[self.get_posy() // num1][self.get_posx() // num2] = 0
    
             
-    def timer_malade(self):
-        time.tick(60)
-        counter = 0                        
-        while counter <= 600: #10 sec
-            counter += 1   
+    def timer_malade(self, start):
+        timer = 0                       
+        while start - time.time() <= 8: #8 sec
+            timer += 1   
         self.set_can_eat(False) 
+        return True
 
 
        
