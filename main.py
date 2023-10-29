@@ -58,7 +58,11 @@ while True:
     if pac_man.get_can_eat():
         for i in range(len(fantomes)):
             fantomes[i].set_malade(True)
-            #fantomes[i].finish_heal()
+        pygame.draw.circle(fenetre, (255, 255, 255), (50, 50), 5)
+        pac_man.timer_malade()
+    else : 
+        for i in range(len(fantomes)):
+            fantomes[i].set_malade(False)
 
 
     for i in range(len(fantomes)):

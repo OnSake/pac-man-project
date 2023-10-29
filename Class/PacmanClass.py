@@ -8,6 +8,7 @@ import pygame
 pygame.init()
 from pygame.locals import *
 
+time = pygame.time.Clock()
 #---------- CLASS ----------#
 
 class Pacman:
@@ -89,8 +90,8 @@ class Pacman:
     def move(self):
         if self.get_posx() < -30:
             self.set_posx(900)
-        elif self.get_posx() > 920:
-            self.set_posx(-30)
+        elif self.get_posx() > 910:
+            self.set_posx(-20)
         if self.get_orientation() == "left" and self.get_collision(0):
                 self.min_posx(15)
         elif self.get_orientation() == "top" and self.get_collision(1):
@@ -117,10 +118,11 @@ class Pacman:
         self.set_collision(3, False)
     
         if self.get_orientation() == "right":
-            if self.get_posx() < 850: #Pour éviter le "out of range"
+            if self.get_posx() < 870: #Pour éviter le "out of range"
                 if map[self.get_posy()//num1][(self.get_posx() + 30) // num2] < 3:
                     self.set_collision(2, True)
                 else : self.__check_collision__[2] = False
+            else : self.set_collision(2, True)
 
         elif self.get_orientation() == "left":
             if map[self.get_posy()//num1][(self.get_posx() - 15) // num2] < 3:
@@ -128,7 +130,7 @@ class Pacman:
             else : self.__check_collision__[0] = False
 
         elif self.get_orientation() == "top":
-            if map[(self.get_posy() - 30)//num1][self.get_posx() // num2] < 3:
+            if map[(self.get_posy() - 15)//num1][self.get_posx() // num2] < 3:
                 self.set_collision(1, True)
             else : self.__check_collision__[1] = False
 
@@ -147,14 +149,23 @@ class Pacman:
                 self.set_score(10)
                 map[self.get_posy() // num1][self.get_posx() // num2] = 0
             
+            
     def check_malade(self, ecran, map):
         num1 = ecran[1]//32
         num2 = ecran[0]//30
         if 0 < self.get_posx() < 900 : #Eviter le out of range
             if map[self.get_posy() // num1][self.get_posx() // num2] == 2:
                 self.set_can_eat(True)
+                self.set_score(50)
                 map[self.get_posy() // num1][self.get_posx() // num2] = 0
-    
+   
+            
+    def timer_malade(self):
+        time.tick(60)
+        counter = 0                        
+        while counter <= 600: #10 sec
+            counter += 1   
+        self.set_can_eat(False) 
 
 
        
