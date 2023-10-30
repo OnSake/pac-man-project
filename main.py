@@ -26,12 +26,12 @@ fantome_blue = Fantome(ecran[0]//2, ecran[1]//2, 0, 'blue', (ecran[0]//2, ecran[
 fantome_pink = Fantome(ecran[0]//2, ecran[1]//2, 0, 'pink', (ecran[0]//2, ecran[1]//2), 'right')
 fantomes = [fantome_red, fantome_orange, fantome_blue, fantome_pink]
 
-
+can_eat = False
 
 police = pygame.font.SysFont("alef" ,30)
 
 
-
+pygame.time.Clock().tick(60)
 map = Map(1, (120, 132, 240))
 
 
@@ -56,12 +56,19 @@ while True:
     pac_man.check_malade(ecran, map.get_map_select())
 
     if pac_man.get_can_eat():
-        while pac_man.timer_malade(time.time()) != True:
-            for i in range(len(fantomes)):
-                fantomes[i].set_malade(True)
-            
-    for i in range(len(fantomes)):
-        fantomes[i].set_malade(False)
+        can_eat = True
+        tps_zero = pygame.time.get_ticks()
+        pac_man.set_can_eat(False)
+
+    if can_eat == True and (pygame.time.get_ticks() - tps_zero) <=8000 :
+        for i in range(len(fantomes)):
+            fantomes[i].set_malade(True)
+    else : 
+        for i in range(len(fantomes)):
+            fantomes[i].set_malade(False)
+            can_eat = False
+
+
 
 
     for i in range(len(fantomes)):

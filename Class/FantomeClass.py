@@ -90,7 +90,6 @@ class Fantome:
 
 
     def finish_heal(self):
-
         self.set_finish_heal(False)
         self.set_malade(False)
 
