@@ -105,10 +105,8 @@ class Fantome:
             if map[self.get_posy()//num1][(self.get_posx() - 15)//num2] == 3 and self.get_orientation() == "left":
                 self.set_orientation(orientation[randint(0, 3)])
 
-
             if map[(self.get_posy() - 15)//num1][self.get_posx()//num2] == 3 and self.get_orientation() == "top":
                 self.set_orientation(orientation[randint(0, 3)])
-
 
             if map[(self.get_posy() + 30)//num1][self.get_posx()//num2] == 3 and self.get_orientation() == "bottom":
                 self.set_orientation(orientation[randint(0, 3)])

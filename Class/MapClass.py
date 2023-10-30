@@ -58,9 +58,11 @@ class Map:
         elif self.get_map_select()[i][j] == 4:
                       pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))
 
-  def game_finish(self):
-    for i in range(len(self.get_map_select())):
-       print(i)
-       if 3 in self.get_map_select()[i]:
-          return False
+  def game_finish(self, vie_pacman):
+    if vie_pacman == 0: 
+       return True
+    
+    for i in range(len(self.get_map_select())):   
+        if 1 in self.get_map_select()[i]:
+           return False
     return True

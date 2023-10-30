@@ -33,7 +33,7 @@ class Pacman:
         return self.__vie__
 
     def set_vie(self, valeur):
-        self.__vie__ = valeur
+        self.__vie__ += valeur
 
     def get_posx(self):
         return self.__pos_x__
@@ -160,12 +160,13 @@ class Pacman:
                 self.set_score(50)
                 map[self.get_posy() // num1][self.get_posx() // num2] = 0
         
+    def check_eat_ghost(self, fantome_x, fantome_y, ecran ):
+        num1 = ecran[1]//32
+        num2 = ecran[0]//30
 
-
+        if self.get_posx()//num2 == fantome_x//num2 and self.get_posy()//num1 == fantome_y//num1:
+            self.set_vie(-1)
             
-    
-
-
        
 
     #-------- Méthodes pour modifier les coordonées x et y (pour faire bouger le pac man) --------#
@@ -181,6 +182,7 @@ class Pacman:
 
     def min_posy(self, valeur):
         self.set_posy(self.get_posy() - valeur)
+
 
 
 
