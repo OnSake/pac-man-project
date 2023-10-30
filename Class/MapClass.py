@@ -4,7 +4,7 @@
 
 #---------- IMPORT ----------#
 
-import pygame 
+import pygame
 from pygame.locals import *
 from Maps.map_1 import map as map_1
 
@@ -15,7 +15,7 @@ maps = [map_1]
 class Map:
   def __init__(self, level, couleur):
     self.__level__ = level - 1
-    self.__map_select__ = maps[self.get_level()] 
+    self.__map_select__ = maps[self.get_level()]
     self.__couleur__ = couleur
 
   #-------- Get et Set --------#
@@ -29,13 +29,11 @@ class Map:
     return self.__couleur__
 
   def set_couleur(self, valeur):
-    self.__couleur__ == valeur 
+    self.__couleur__ = valeur
 
   def get_map_select(self):
      return self.__map_select__
 
-  def set_map_select(self, valeur):
-     self.__map_select__ = valeur
 
     #-------- Méthodes --------#
 
@@ -47,15 +45,22 @@ class Map:
     for i in range(len(self.get_map_select())):
       for j in range(len(self.get_map_select()[i])):
 
-        if map_1[i][j] == 1:
+        if self.get_map_select()[i][j] == 1:
             pygame.draw.rect(fenetre, (0, 0, 0), (j * x_space, i * y_space, 30, 30))
             pygame.draw.circle(fenetre, (255, 255, 255), (j * x_space + (x_space/2), i * y_space + (y_space/2)), 5) #Ici, on calcule la position de départ x et y et on ajoute la moitié pour que la boule soit centrée
-        elif map_1[i][j] == 2:
+        elif self.get_map_select()[i][j] == 2:
             pygame.draw.rect(fenetre, (0, 0, 0), (j * x_space, i * y_space, 30, 30))
             pygame.draw.circle(fenetre, (255, 255, 255), (j * x_space + (x_space/2), i * y_space + (y_space/2)), 10)
 
-        elif map_1[i][j] == 3:
+        elif self.get_map_select()[i][j] == 3:
             pygame.draw.rect(fenetre, self.get_couleur(), (j * x_space, i * y_space, 30, 30))
 
-        elif map_1[i][j] == 4:
+        elif self.get_map_select()[i][j] == 4:
                       pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))
+
+  def game_finish(self):
+    for i in range(len(self.get_map_select())):
+       print(i)
+       if 3 in self.get_map_select()[i]:
+          return False
+    return True

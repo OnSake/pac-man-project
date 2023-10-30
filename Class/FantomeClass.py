@@ -16,9 +16,12 @@ class Fantome:
         self.__orientation__ = orientation
         self.__malade__ = False 
         self.__finish_heal__ = False
-
+        self.__liste_orientation__= ["left", "top", "right", "bottom", "None"]
 
     #-------- Get et Set --------#
+    def get_liste_orientation(self):
+        return self.__liste_orientation__
+
     def get_finish_heal(self):
         return self.__finish_heal__
     
@@ -31,13 +34,13 @@ class Fantome:
     def set_malade(self, valeur):
         self.__malade__ = valeur
 
-    def get_posx (self):
+    def get_posx(self):
         return self.__pos_x__
 
     def set_posx(self,valeur):
         self.__pos_x__ = valeur
 
-    def get_posy (self):
+    def get_posy(self):
         return self.__pos_y__
 
     def set_posy(self,valeur):
@@ -56,17 +59,16 @@ class Fantome:
     #-------- Méthodes --------#
 
     def mvt(self):
-            liste_orientation=["left", "top", "right", "bottom"]
-            self.set_orientation(liste_orientation[randint(0, 3)])
+
 
             if self.get_orientation() == "left":
-                self.min_posx(10)
+                self.min_posx(15)
             elif self.get_orientation() == "top":
-                self.add_posy(10)
+                self.add_posy(15)
             elif self.get_orientation() == "right":
-                self.add_posx(10)
+                self.add_posx(15)
             elif self.get_orientation() == "bottom":
-                self.min_posy(10)
+                self.min_posy(15)
 
 
     def draw(self, fenetre):
@@ -82,7 +84,6 @@ class Fantome:
                 fenetre.blit(fantome[3], (self.get_posx(), self.get_posy()))
         else : 
             if self.get_finish_heal():
-                fenetre.blit(fantome[4], (self.get_posx(), self.get_posy()))
                 fenetre.blit(fantome[5], (self.get_posx(), self.get_posy()))
             else : fenetre.blit(fantome[4], (self.get_posx(), self.get_posy()))
         
@@ -93,6 +94,31 @@ class Fantome:
         self.set_finish_heal(False)
         self.set_malade(False)
 
+    def check_collision(self, ecran, map):
+        orientation = self.get_liste_orientation()
+        num1 = ecran[1]//32
+        num2 = ecran[0]//30
+        if 0 < self.get_posx() < 850 and 0 < self.get_posy() < 900:
+            if map[self.get_posy()//num1][(self.get_posx() + 30)//num2] == 3 and self.get_orientation() == "right":
+                self.set_orientation(orientation[randint(0, 3)])
+            
+            if map[self.get_posy()//num1][(self.get_posx() - 15)//num2] == 3 and self.get_orientation() == "left":
+                self.set_orientation(orientation[randint(0, 3)])
+
+
+            if map[(self.get_posy() - 15)//num1][self.get_posx()//num2] == 3 and self.get_orientation() == "top":
+                self.set_orientation(orientation[randint(0, 3)])
+
+
+            if map[(self.get_posy() + 30)//num1][self.get_posx()//num2] == 3 and self.get_orientation() == "bottom":
+                self.set_orientation(orientation[randint(0, 3)])
+        else: 
+            self.set_posy(ecran[1]//2)
+            self.set_posx(ecran[0]//2)
+
+            
+ 
+        
 
     def add_posx(self, valeur):
         self.set_posx(self.get_posx() + valeur)

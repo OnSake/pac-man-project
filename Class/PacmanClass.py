@@ -111,33 +111,33 @@ class Pacman:
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 
-        #if self.get_posy()%30 == 0 and self.get_posx()%30:
         self.set_collision(0, False)
         self.set_collision(1, False)
         self.set_collision(2, False)
         self.set_collision(3, False)
-    
-        if self.get_orientation() == "right":
-            if self.get_posx() < 870: #Pour éviter le "out of range"
-                if map[self.get_posy()//num1][(self.get_posx() + 30) // num2] < 3:
-                    self.set_collision(2, True)
-                else : self.__check_collision__[2] = False
-            else : self.set_collision(2, True)
 
-        elif self.get_orientation() == "left":
-            if map[self.get_posy()//num1][(self.get_posx() - 15) // num2] < 3:
-                self.set_collision(0, True)
-            else : self.__check_collision__[0] = False
+        if map[self.get_posy()//num1][self.get_posx() // num2] < 3:
+            if self.get_orientation() == "right":
+                if self.get_posx() < 870: #Pour éviter le "out of range"
+                    if map[self.get_posy()//num1][(self.get_posx() + 30) // num2] < 3:
+                        self.set_collision(2, True)
+                    else : self.__check_collision__[2] = False
+                else : self.set_collision(2, True)
 
-        elif self.get_orientation() == "top":
-            if map[(self.get_posy() - 15)//num1][self.get_posx() // num2] < 3:
-                self.set_collision(1, True)
-            else : self.__check_collision__[1] = False
+            elif self.get_orientation() == "left":
+                if map[self.get_posy()//num1][(self.get_posx() - 15) // num2] < 3:
+                    self.set_collision(0, True)
+                else : self.__check_collision__[0] = False
 
-        elif self.get_orientation() == "bottom":
-            if map[(self.get_posy() + 30)//num1][self.get_posx() // num2] < 3:
-                self.set_collision(3, True)
-            else : self.__check_collision__[3] = False
+            elif self.get_orientation() == "top":
+                if map[(self.get_posy() - 15)//num1][self.get_posx() // num2] < 3:
+                    self.set_collision(1, True)
+                else : self.__check_collision__[1] = False
+
+            elif self.get_orientation() == "bottom":
+                if map[(self.get_posy() + 30)//num1][self.get_posx() // num2] < 3:
+                    self.set_collision(3, True)
+                else : self.__check_collision__[3] = False
 
 
     def check_score(self, ecran, map):
