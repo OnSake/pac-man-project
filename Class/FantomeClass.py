@@ -94,6 +94,7 @@ class Fantome:
         self.set_finish_heal(False)
         self.set_malade(False)
 
+
     def check_collision(self, ecran, map):
         orientation = self.get_liste_orientation()
         num1 = ecran[1]//32

@@ -7,10 +7,10 @@
 import pygame
 from pygame.locals import *
 from Maps.map_1 import map as map_1
-
+from Maps.map_2 import map as map_2
 pygame.init()
 
-maps = [map_1]
+maps = [map_1, map_2]
 #---------- CLASS ----------#
 class Map:
   def __init__(self, level, couleur):
@@ -58,8 +58,8 @@ class Map:
         elif self.get_map_select()[i][j] == 4:
                       pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))
 
-  def game_finish(self, vie_pacman):
-    if vie_pacman == 0: 
+  def game_finish(self, touch_pacman):
+    if touch_pacman == True: 
        return True
     
     for i in range(len(self.get_map_select())):   

@@ -21,8 +21,15 @@ class Pacman:
         self.__couleur__ = (255, 255, 0)
         self.__score__ = 0
         self.__check_collision__ = [False, False, False, False]
+        self.__touch__ = False
 
     #-------- Get et Set --------#
+    def get_touch(self):
+        return self.__touch__
+
+    def set_touch(self, valeur):
+        self.__touch__ = valeur
+
     def get_collision(self, index):
         return self.__check_collision__[index]
 
@@ -160,13 +167,22 @@ class Pacman:
                 self.set_score(50)
                 map[self.get_posy() // num1][self.get_posx() // num2] = 0
         
-    def check_eat_ghost(self, fantome_x, fantome_y, ecran ):
+    def check_eat_ghost(self, objet_fantome, ecran ):
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 
-        if self.get_posx()//num2 == fantome_x//num2 and self.get_posy()//num1 == fantome_y//num1:
-            self.set_vie(-1)
-            
+        if objet_fantome.get_malade() == True:
+            if self.get_posx()//num2 == objet_fantome.get_posx()//num2 and self.get_posy()//num1 == objet_fantome.get_posy()//num1:
+                self.set_vie(1)
+                objet_fantome.set_posx(ecran[0]//2)
+                objet_fantome.set_posy(ecran[1]//2)
+                
+
+        else:
+                if self.get_posx()//num2 == objet_fantome.get_posx()//num2 and self.get_posy()//num1 == objet_fantome.get_posy()//num1:
+                    self.set_vie(-1)
+                    self.set_touch(True)
+                
        
 
     #-------- Méthodes pour modifier les coordonées x et y (pour faire bouger le pac man) --------#
