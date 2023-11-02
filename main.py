@@ -33,26 +33,29 @@ fantomes = [fantome_red, fantome_orange, fantome_blue, fantome_pink]
 can_eat = False
 police = pygame.font.SysFont("arial" ,30)
 
-#Sound effects
-original_sound = f'Musique/PacMan_Original_Theme.mp3'
-pacman_dying_sound = f'Musique/PacMan_Dying.mp3'
-pacman_eating_sound = f'Musique/PacMan-Eating.mp3'
-pacman_eating_ghost_sound = f'Musique/PacMan_Eating_Ghost.mp3'
+# ---- Sound effects ---- #
+pacman_original_sound = pygame.mixer.Sound('Musique\PacMan_Original_Theme.mp3')
+pacman_dying_sound = pygame.mixer.Sound('Musique\PacMan_Dying.mp3')
+pacman_eating_sound = pygame.mixer.Sound('Musique\PacMan-Eating.mp3')
+pacman_eating_ghost_sound = pygame.mixer.Sound('Musique\PacMan_Eating_Ghost.mp3')
 
 pac_man.set_touch(False)
 map = Map(1, (120, 132, 240))
+#------------ GAME ------------#
+    #-------- GAME SETUP --------#
 
-#pygame.mixer.music.load(original_sound)
-#pygame.mixer.music.set_volume(0.2)
-#pygame.mixer.music.play(-1, 500)
-# ------------ GAME ------------#
+pygame.mixer.music.set_volume(0.2)
+pacman_original_sound.play(-1)
 
 pac_man.set_posx(60), pac_man.set_posy(60)
+
 for i in range(len(fantomes)):
     fantomes[i].set_orientation("top")
 
-while map.game_finish(pac_man.get_touch()) == False:
-    print(pac_man.get_score())
+    #-------- GAME LAUNCHED --------#
+
+while map.game_finish(pac_man.get_touch(), pacman_dying_sound) == False:
+    
     fenetre.fill([0,0,0])
     image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 255, 255))
     image_pt_de_vie = police.render("Vie : " + str(pac_man.get_vie()), 1, (255, 255, 255))
@@ -70,15 +73,12 @@ while map.game_finish(pac_man.get_touch()) == False:
     pac_man.check_malade(ecran, map.get_map_select())
 
 
-
-
     if pac_man.get_can_eat():
+        pacman_eating_sound.play(-1)
+        pacman_original_sound.set_volume(0.0)
         can_eat = True
-        #pygame.mixer.music.load(pacman_eating_sound)
-        #pygame.mixer.music.play(-1, 0.5, 500)
         tps_zero = pygame.time.get_ticks()
         pac_man.set_can_eat(False)
-
 
     if can_eat == True and (pygame.time.get_ticks() - tps_zero) <=8000 :
         for i in range(len(fantomes)):
@@ -88,6 +88,8 @@ while map.game_finish(pac_man.get_touch()) == False:
                 fantomes[i].set_finish_heal(True)
     else :
 
+        pacman_original_sound.set_volume(1.0)
+        pacman_eating_sound.stop()
         for i in range(len(fantomes)):
             fantomes[i].set_malade(False)
             can_eat = False
@@ -95,7 +97,7 @@ while map.game_finish(pac_man.get_touch()) == False:
 
 
     for i in range(len(fantomes)):
-        pac_man.check_eat_ghost(fantomes[i], ecran)
+        pac_man.check_eat_ghost(fantomes[i], ecran, pacman_eating_ghost_sound)
         #fantomes[i].check_collision(ecran, map.get_map_select())
         fantomes[i].mvt()
         fantomes[i].draw(fenetre)
@@ -122,5 +124,7 @@ while map.game_finish(pac_man.get_touch()) == False:
 
     pygame.display.update()
     time.sleep(0.1)
+
+
 
 pygame.quit()

@@ -62,7 +62,7 @@ class Map:
 
   def game_finish(self, touch_pacman):
     if touch_pacman == True:
-       return True
+      return True
 
     for i in range(len(self.get_map_select())):
         if 1 in self.get_map_select()[i]:

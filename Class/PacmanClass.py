@@ -7,7 +7,7 @@
 import pygame 
 pygame.init()
 from pygame.locals import *
-import time
+
 
 #---------- CLASS ----------#
 
@@ -167,17 +167,19 @@ class Pacman:
                 self.set_score(50)
                 map[self.get_posy() // num1][self.get_posx() // num2] = 0
         
-    def check_eat_ghost(self, objet_fantome, ecran ):
+    def check_eat_ghost(self, objet_fantome, ecran, ghost_eat_object ):
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 
         if objet_fantome.get_malade() == True:
             if self.get_posx()//num2 == objet_fantome.get_posx()//num2 and self.get_posy()//num1 == objet_fantome.get_posy()//num1:
+                ghost_eat_object.play()
                 self.set_vie(1)
                 self.set_score(200)
+                objet_fantome.set_malade(False)
                 objet_fantome.set_posx(ecran[0]//2)
                 objet_fantome.set_posy(ecran[1]//2)
-                
+
 
         else:
                 if self.get_posx()//num2 == objet_fantome.get_posx()//num2 and self.get_posy()//num1 == objet_fantome.get_posy()//num1:

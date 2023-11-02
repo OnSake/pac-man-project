@@ -55,6 +55,11 @@ class Fantome:
     def get_couleur(self):
         return self.__couleur__
 
+    def get_mort(self):
+        return self.__mort__
+
+    def set_mort(self, valeur):
+        self.__mort__ = valeur
 
     #-------- Méthodes --------#
 
@@ -86,7 +91,7 @@ class Fantome:
             if self.get_finish_heal():
                 fenetre.blit(fantome[5], (self.get_posx(), self.get_posy()))
             else : fenetre.blit(fantome[4], (self.get_posx(), self.get_posy()))
-        
+
         pygame.display.flip()
 
 
@@ -110,7 +115,6 @@ class Fantome:
         else : liste_collision[3] = True  
 
         return liste_collision
-
 
 
     def change_direction(self, liste_collision):
@@ -170,6 +174,11 @@ class Fantome:
                 self.set_orientation("top")
             elif direction_random == 3: 
                 self.set_orientation("bottom")
+
+
+
+
+
 
 
     def add_posx(self, valeur):
