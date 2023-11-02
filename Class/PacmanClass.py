@@ -158,7 +158,6 @@ class Pacman:
             
             
     def check_malade(self, ecran, map):
-        a = 0
         num1 = ecran[1]//32
         num2 = ecran[0]//30
         if 0 < self.get_posx() < 900 : #Eviter le out of range

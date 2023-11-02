@@ -54,7 +54,7 @@ for i in range(len(fantomes)):
 
     #-------- GAME LAUNCHED --------#
 
-while map.game_finish(pac_man.get_touch(), pacman_dying_sound) == False:
+while map.game_finish(pac_man.get_touch()) == False:
     
     fenetre.fill([0,0,0])
     image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 255, 255))
