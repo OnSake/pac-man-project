@@ -47,10 +47,12 @@ class Map:
 
         if self.get_map_select()[i][j] == 1:
             pygame.draw.rect(fenetre, (0, 0, 0), (j * x_space, i * y_space, 30, 30))
-            pygame.draw.circle(fenetre, (255, 255, 255), (j * x_space + (x_space/2), i * y_space + (y_space/2)), 5) #Ici, on calcule la position de départ x et y et on ajoute la moitié pour que la boule soit centrée
+            pygame.draw.circle(fenetre, (255, 255, 255), (int(j * x_space + (x_space/2)), int(i * y_space + (y_space/2))), 5)#Ici, on calcule la position de départ x et y et on ajoute la moitié pour que la boule soit centrée
+
         elif self.get_map_select()[i][j] == 2:
             pygame.draw.rect(fenetre, (0, 0, 0), (j * x_space, i * y_space, 30, 30))
-            pygame.draw.circle(fenetre, (255, 255, 255), (j * x_space + (x_space/2), i * y_space + (y_space/2)), 10)
+            pygame.draw.circle(fenetre, (255, 255, 255), (int(j * x_space + (x_space/2)), int(i * y_space + (y_space/2))), 10)
+
 
         elif self.get_map_select()[i][j] == 3:
             pygame.draw.rect(fenetre, self.get_couleur(), (j * x_space, i * y_space, 30, 30))
@@ -59,10 +61,10 @@ class Map:
                       pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))
 
   def game_finish(self, touch_pacman):
-    if touch_pacman == True: 
+    if touch_pacman == True:
        return True
-    
-    for i in range(len(self.get_map_select())):   
+
+    for i in range(len(self.get_map_select())):
         if 1 in self.get_map_select()[i]:
            return False
     return True

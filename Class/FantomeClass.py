@@ -64,11 +64,11 @@ class Fantome:
             if self.get_orientation() == "left":
                 self.min_posx(15)
             elif self.get_orientation() == "top":
-                self.add_posy(15)
+                self.min_posy(15)
             elif self.get_orientation() == "right":
                 self.add_posx(15)
             elif self.get_orientation() == "bottom":
-                self.min_posy(15)
+                self.add_posy(15)
 
 
     def draw(self, fenetre):
@@ -90,34 +90,87 @@ class Fantome:
         pygame.display.flip()
 
 
-    def finish_heal(self):
-        self.set_finish_heal(False)
-        self.set_malade(False)
-
-
     def check_collision(self, ecran, map):
-        orientation = self.get_liste_orientation()
-        num1 = ecran[1]//32
-        num2 = ecran[0]//30
-        if 0 < self.get_posx() < 850 and 0 < self.get_posy() < 900:
-            if map[self.get_posy()//num1][(self.get_posx() + 30)//num2] == 3 and self.get_orientation() == "right":
-                self.set_orientation(orientation[randint(0, 3)])
-            
-            if map[self.get_posy()//num1][(self.get_posx() - 15)//num2] == 3 and self.get_orientation() == "left":
-                self.set_orientation(orientation[randint(0, 3)])
-
-            if map[(self.get_posy() - 15)//num1][self.get_posx()//num2] == 3 and self.get_orientation() == "top":
-                self.set_orientation(orientation[randint(0, 3)])
-
-            if map[(self.get_posy() + 30)//num1][self.get_posx()//num2] == 3 and self.get_orientation() == "bottom":
-                self.set_orientation(orientation[randint(0, 3)])
-        else: 
-            self.set_posy(ecran[1]//2)
-            self.set_posx(ecran[0]//2)
-
-            
- 
+        liste_collision = [True, True, True, True] #R, L, T, B
         
+        if self.check_collision_right(ecran, map) == True:
+            liste_collision[0] = False
+        else : liste_collision[0] = True
+
+        if self.check_collision_left(ecran, map) == True:
+            liste_collision[1] = False  
+        else : liste_collision[1] = True  
+
+        if self.check_collision_top(ecran, map) == True:
+            liste_collision[2] = False  
+        else : liste_collision[2] = True  
+
+        if self.check_collision_bottom(ecran, map) == True:
+            liste_collision[3] = False  
+        else : liste_collision[3] = True  
+
+        return liste_collision
+
+
+
+    def change_direction(self, liste_collision):
+        #R = 0, L = 1, T = 2, B = 3
+        direction_possible = []
+        if liste_collision[0] == False and self.get_orientation() == "right": 
+            for i in range(len(liste_collision)):
+                if i == 1 and liste_collision[i] == True:
+                    direction_possible.append(1)
+
+                if i == 2 and liste_collision[i] == True:
+                    direction_possible.append(2)
+                
+                if i == 3 and liste_collision[i] == True: 
+                    direction_possible.append(3)
+        
+        if liste_collision[1] == False and self.get_orientation() == "left": 
+            for i in range(len(liste_collision)):
+                if i == 0 and liste_collision[i] == True:
+                    direction_possible.append(0)
+
+                if i == 2 and liste_collision[i] == True:
+                    direction_possible.append(2)
+                
+                if i == 3 and liste_collision[i] == True: 
+                    direction_possible.append(3)
+        
+        if liste_collision[2] == False and self.get_orientation() == "top": 
+            for i in range(len(liste_collision)):
+                if i == 1 and liste_collision[i] == True:
+                    direction_possible.append(1)
+
+                if i == 0 and liste_collision[i] == True:
+                    direction_possible.append(0)
+                
+                if i == 3 and liste_collision[i] == True: 
+                    direction_possible.append(3)
+        
+        if liste_collision[3] == False and self.get_orientation() == "bottom": 
+            for i in range(len(liste_collision)):
+                if i == 1 and liste_collision[i] == True:
+                    direction_possible.append(1)
+
+                if i == 2 and liste_collision[i] == True:
+                    direction_possible.append(2)
+                
+                if i == 0 and liste_collision[i] == True: 
+                    direction_possible.append(0)
+
+        if len(direction_possible) != 0:
+            direction_random = direction_possible[randint(0, len(direction_possible) - 1)]
+            if direction_random == 0:
+                self.set_orientation("right")        
+            elif direction_random == 1:
+                self.set_orientation("left")
+            elif direction_random == 2:
+                self.set_orientation("top")
+            elif direction_random == 3: 
+                self.set_orientation("bottom")
+
 
     def add_posx(self, valeur):
         self.set_posx(self.get_posx() + valeur)
@@ -131,6 +184,34 @@ class Fantome:
     def min_posy(self, valeur):
         self.set_posy(self.get_posy() - valeur)
 
+
+    def check_collision_right(self, ecran, map):
+        num1 = ecran[1]//32
+        num2 = ecran[0]//30
+        if map[self.get_posy()//num1][(self.get_posx() + 30)//num2] == 3:
+            return True
+        return False
+
+    def check_collision_left(self, ecran, map):
+        num1 = ecran[1]//32
+        num2 = ecran[0]//30
+        if map[self.get_posy()//num1][(self.get_posx() - 15)//num2] == 3:
+            return True
+        return False
+
+    def check_collision_top(self, ecran, map):
+        num1 = ecran[1]//32
+        num2 = ecran[0]//30
+        if map[(self.get_posy() - 15)//num1][self.get_posx()//num2] == 3:
+            return True
+        return False
+
+    def check_collision_bottom(self, ecran, map):
+        num1 = ecran[1]//32
+        num2 = ecran[0]//30
+        if map[(self.get_posy() + 30)//num1][self.get_posx()//num2] == 3:
+            return True
+        return False
 
 
 

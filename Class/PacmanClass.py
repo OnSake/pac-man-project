@@ -174,6 +174,7 @@ class Pacman:
         if objet_fantome.get_malade() == True:
             if self.get_posx()//num2 == objet_fantome.get_posx()//num2 and self.get_posy()//num1 == objet_fantome.get_posy()//num1:
                 self.set_vie(1)
+                self.set_score(200)
                 objet_fantome.set_posx(ecran[0]//2)
                 objet_fantome.set_posy(ecran[1]//2)
                 
