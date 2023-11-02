@@ -178,14 +178,14 @@ class Pacman:
         num2 = ecran[0]//30
 
         if objet_fantome.get_malade() == True:
-            if self.get_posx()//num2 == objet_fantome.get_posx()//num2 and self.get_posy()//num1 == objet_fantome.get_posy()//num1:
+            if  objet_fantome.get_posx() - 25 <= self.get_posx() <= objet_fantome.get_posx() + 25 and objet_fantome.get_posy() - 25 <= self.get_posy() <= objet_fantome.get_posy() + 25:
                 ghost_eat_object.play()
                 self.set_vie(1)
                 self.set_score(200)
                 objet_fantome.set_malade(False)
                 objet_fantome.set_posx(ecran[0]//2)
                 objet_fantome.set_posy(ecran[1]//2)
-                objet_fantome.set_orientation("top")
+                objet_fantome.set_start_movement(True)
 
 
         else:

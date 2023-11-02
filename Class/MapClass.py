@@ -61,7 +61,7 @@ class Map:
                       pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))
 
   def game_finish(self, objet_pacman):
-    if objet_pacman.get_touch() == True and objet_pacman.get_vie() == 0:
+    if objet_pacman.get_touch() == True and objet_pacman.get_vie() < 1:
       return True
 
     for i in range(len(self.get_map_select())):
