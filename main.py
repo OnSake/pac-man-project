@@ -21,19 +21,18 @@ fenetre = pygame.display.set_mode(ecran)
 pygame.display.set_caption("Pac Man")
 
 
-
 pac_man =  Pacman(2, 60, 60)
 fantome_red = Fantome(ecran[0]//2, ecran[1]//2, 0, 'red', (ecran[0]//2, ecran[1]//2), 'right')
 fantome_orange = Fantome(ecran[0]//2, ecran[1]//2, 0, 'orange', (ecran[0]//2, ecran[1]//2), 'left')
 fantome_blue = Fantome(ecran[0]//2, ecran[1]//2, 0, 'blue', (ecran[0]//2, ecran[1]//2), 'top')
 fantome_pink = Fantome(ecran[0]//2, ecran[1]//2, 0, 'pink', (ecran[0]//2, ecran[1]//2), 'bottom')
 fantomes = [fantome_red, fantome_orange, fantome_blue, fantome_pink]
-
-
 can_eat = False
+
+
 police = pygame.font.SysFont("arial" ,30)
 
-# ---- Sound effects ---- #
+#---------- SOUNDS EFFECTS ----------#
 pacman_original_sound = pygame.mixer.Sound('Musique\PacMan_Original_Theme.mp3')
 pacman_dying_sound = pygame.mixer.Sound('Musique\PacMan_Dying.mp3')
 pacman_eating_sound = pygame.mixer.Sound('Musique\PacMan-Eating.mp3')
@@ -41,9 +40,13 @@ pacman_eating_ghost_sound = pygame.mixer.Sound('Musique\PacMan_Eating_Ghost.mp3'
 
 pac_man.set_touch(False)
 map = Map(1, (120, 132, 240))
+
+
 #------------ GAME ------------#
+
     #-------- GAME SETUP --------#
 
+game_statut = True
 pygame.mixer.music.set_volume(0.2)
 pacman_original_sound.play(-1)
 
@@ -54,8 +57,10 @@ for i in range(len(fantomes)):
 
     #-------- GAME LAUNCHED --------#
 
-while map.game_finish(pac_man.get_touch()) == False:
-    
+while game_statut:
+    if map.game_finish(pac_man.get_touch(), pac_man.get_vie()):
+        game_statut = False
+
     fenetre.fill([0,0,0])
     image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 255, 255))
     image_pt_de_vie = police.render("Vie : " + str(pac_man.get_vie()), 1, (255, 255, 255))
@@ -98,19 +103,19 @@ while map.game_finish(pac_man.get_touch()) == False:
 
     for i in range(len(fantomes)):
         pac_man.check_eat_ghost(fantomes[i], ecran, pacman_eating_ghost_sound)
-        #fantomes[i].check_collision(ecran, map.get_map_select())
         fantomes[i].mvt()
         fantomes[i].draw(fenetre)
         fantomes[i].change_direction(fantomes[i].check_collision(ecran, map.get_map_select()))       
+    
+
     # routine pour pouvoir fermer «proprement» la fenêtre Pygame
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.display.quit()
             sys.exit()
-
-
     # Bouger le PAC MAN
+
         elif event.type == KEYDOWN:
             if event.key == K_UP:
                 pac_man.set_orientation("top")
@@ -124,7 +129,13 @@ while map.game_finish(pac_man.get_touch()) == False:
 
     pygame.display.update()
     time.sleep(0.1)
+    
+    
 
 
+fenetre.fill([0,0,0])
 
+pygame.mixer.stop()
+pacman_dying_sound.play()
+time.sleep(pacman_dying_sound.get_length())
 pygame.quit()
