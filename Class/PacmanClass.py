@@ -22,8 +22,15 @@ class Pacman:
         self.__score__ = 0
         self.__check_collision__ = [False, False, False, False]
         self.__touch__ = False
+        self.__win__ = False
 
     #-------- Get et Set --------#
+    def get_win(self):
+        return self.__win__
+
+    def set_win(self, valeur):
+        self.__win__ = valeur
+
     def get_touch(self):
         return self.__touch__
 
@@ -178,6 +185,7 @@ class Pacman:
                 objet_fantome.set_malade(False)
                 objet_fantome.set_posx(ecran[0]//2)
                 objet_fantome.set_posy(ecran[1]//2)
+                objet_fantome.set_orientation("top")
 
 
         else:

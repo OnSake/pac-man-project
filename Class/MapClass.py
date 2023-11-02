@@ -60,11 +60,12 @@ class Map:
         elif self.get_map_select()[i][j] == 4:
                       pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))
 
-  def game_finish(self, touch_pacman, vie_pacman):
-    if touch_pacman == True and vie_pacman == 0:
+  def game_finish(self, objet_pacman):
+    if objet_pacman.get_touch() == True and objet_pacman.get_vie() == 0:
       return True
 
     for i in range(len(self.get_map_select())):
         if 1 in self.get_map_select()[i]:
            return False
+    objet_pacman.set_win(True)
     return True

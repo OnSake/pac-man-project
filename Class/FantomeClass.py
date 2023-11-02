@@ -1,8 +1,6 @@
 # Créé par thibault.rigallaud, le 16/10/2023 en Python 3.7
 from random import randint
 import pygame
-import sys
-import time
 
 
 class Fantome:
@@ -17,8 +15,15 @@ class Fantome:
         self.__malade__ = False 
         self.__finish_heal__ = False
         self.__liste_orientation__= ["left", "top", "right", "bottom", "None"]
+        self.__start_movement__ = False
 
     #-------- Get et Set --------#
+    def get_start_movement(self):
+        return self.__start_movement__
+
+    def set_start_movement(self, valeur):
+        self.__start_movement__ = valeur
+
     def get_liste_orientation(self):
         return self.__liste_orientation__
 
@@ -97,7 +102,7 @@ class Fantome:
 
     def check_collision(self, ecran, map):
         liste_collision = [True, True, True, True] #R, L, T, B
-        
+
         if self.check_collision_right(ecran, map) == True:
             liste_collision[0] = False
         else : liste_collision[0] = True
@@ -175,9 +180,15 @@ class Fantome:
             elif direction_random == 3: 
                 self.set_orientation("bottom")
 
-
-
-
+    """
+    def start_movement(self, ecran, map):
+        self.set_orientation("top")
+        if self.check_collision_top(ecran, map):
+            if randint(0, 1) == 0: 
+                self.set_orientation("right")
+            else : self.set_orientation("left")
+        self.set_start_movement(False)  
+    """
 
 
 
