@@ -106,9 +106,9 @@ def game(can_eat):
             can_eat = True
             tps_zero = pygame.time.get_ticks()
             pac_man.set_can_eat(False)
-        
-        
-        #Timer pour manger 
+
+
+        #Timer pour manger
         if can_eat == True and (pygame.time.get_ticks() - tps_zero) <=8000 :
             for i in range(len(fantomes)):
                 fantomes[i].set_malade(True)
@@ -125,20 +125,20 @@ def game(can_eat):
 
 
         for i in range(len(fantomes)):
-            
+
             pac_man.check_eat_ghost(fantomes[i], ecran, pacman_eating_ghost_sound)
             if fantomes[i].get_start_movement(): #Si le fantome est mort, il revient donc à son point de respawn et doit aller vers le haut
                 if fantomes[i].check_collision_top(ecran, map.get_map_select()) == False:
                     fantomes[i].set_orientation("top")
-                else :     
+                else :
                     if randint(0, 1) == 0:
                         fantomes[i].set_orientation("right")
-                    else : fantomes[i].set_orientation("left")  
+                    else : fantomes[i].set_orientation("left")
                     fantomes[i].set_start_movement(False)
-            fantomes[i].change_direction(fantomes[i].check_collision(ecran, map.get_map_select()))       
+            fantomes[i].change_direction(fantomes[i].check_collision(ecran, map.get_map_select()))
             fantomes[i].mvt()
             fantomes[i].draw(fenetre)
-        
+
 
         # routine pour pouvoir fermer «proprement» la fenêtre Pygame
 
@@ -157,14 +157,14 @@ def game(can_eat):
                     pac_man.set_orientation("bottom")
                 elif event.key == K_LEFT:
                     pac_man.set_orientation("left")
-    
+
 
         pygame.display.update()
         time.sleep(0.1)
     if pac_man.get_win():
         pass
 
-    else: 
+    else:
         pygame.mixer.stop()
         pacman_dying_sound.play()
         pacman_original_sound.stop()
