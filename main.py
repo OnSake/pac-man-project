@@ -52,7 +52,10 @@ game_statut = True
 pygame.mixer.music.set_volume(0.2)
 pacman_original_sound.play(-1)
 
+
+pac_man.set_posx(pacman_x_spawn), pac_man.set_posy(pacman_y_spawn)
 pac_man.set_posx(60), pac_man.set_posy(60)
+
 
 for i in range(len(fantomes)):
     fantomes[i].set_start_movement(True)
@@ -164,6 +167,14 @@ def game(game_statut, can_eat):
         time.sleep(0.1)
     
 #------------ GAME SCREEN ------------#
+
+
+game(game_statut, can_eat)    
+pygame.mixer.stop()
+
+#------------ END GAME SCREEN ------------#
+
+
 
 game(game_statut, can_eat)    
 pygame.mixer.stop()

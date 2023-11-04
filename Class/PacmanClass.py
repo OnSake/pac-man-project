@@ -178,6 +178,48 @@ class Pacman:
         num2 = ecran[0]//30
 
         if objet_fantome.get_malade() == True:
+
+            if objet_fantome.get_orientation() == "right":
+                if objet_fantome.get_posx() <= self.get_posx() <= objet_fantome.get_posx() + 30 and objet_fantome.get_posy() == self.get_posy():
+                    ghost_eat_object.play()
+                    self.set_vie(1)
+                    self.set_score(200)
+                    objet_fantome.set_malade(False)
+                    objet_fantome.set_posx(ecran[0]//2)
+                    objet_fantome.set_posy(ecran[1]//2)
+                    objet_fantome.set_start_movement(True)
+
+            elif objet_fantome.get_orientation() == "left":
+                if objet_fantome.get_posx() - 30 <= self.get_posx() <= objet_fantome.get_posx() and objet_fantome.get_posy() == self.get_posy():
+                    ghost_eat_object.play()
+                    self.set_vie(1)
+                    self.set_score(200)
+                    objet_fantome.set_malade(False)
+                    objet_fantome.set_posx(ecran[0]//2)
+                    objet_fantome.set_posy(ecran[1]//2)
+                    objet_fantome.set_start_movement(True)
+            
+            elif objet_fantome.get_orientation() == "top":
+                if objet_fantome.get_posx() == self.get_posx() and objet_fantome.get_posy() - 30 <= self.get_posy() <= objet_fantome.get_posy():
+                    ghost_eat_object.play()
+                    self.set_vie(1)
+                    self.set_score(200)
+                    objet_fantome.set_malade(False)
+                    objet_fantome.set_posx(ecran[0]//2)
+                    objet_fantome.set_posy(ecran[1]//2)
+                    objet_fantome.set_start_movement(True)
+
+            elif objet_fantome.get_orientation() == "bottom":
+                if objet_fantome.get_posx() == self.get_posx() and objet_fantome.get_posy() <= self.get_posy() <= objet_fantome.get_posy() + 30:
+                    ghost_eat_object.play()
+                    self.set_vie(1)
+                    self.set_score(200)
+                    objet_fantome.set_malade(False)
+                    objet_fantome.set_posx(ecran[0]//2)
+                    objet_fantome.set_posy(ecran[1]//2)
+                    objet_fantome.set_start_movement(True)
+
+
             if  objet_fantome.get_posx() - 25 <= self.get_posx() <= objet_fantome.get_posx() + 25 and objet_fantome.get_posy() - 25 <= self.get_posy() <= objet_fantome.get_posy() + 25:
                 ghost_eat_object.play()
                 self.set_vie(1)

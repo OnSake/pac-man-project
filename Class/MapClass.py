@@ -62,6 +62,7 @@ class Map:
 
   def game_finish(self, objet_pacman):
     if objet_pacman.get_touch() == True and objet_pacman.get_vie() < 1:
+      objet_pacman.set_win(False)
       return True
 
     for i in range(len(self.get_map_select())):
