@@ -14,6 +14,7 @@ pygame.init()
 from Class.PacmanClass import Pacman
 from Class.MapClass import Map
 from Class.FantomeClass import Fantome
+from end_screen import end_screen
 
 
 #---------- VARIABLE ----------#
@@ -23,7 +24,8 @@ pygame.display.set_caption("Pac Man")
 pacman_x_spawn, pacman_y_spawn = 60, 60
 
 #---------- OBJETS ----------#
-pac_man =  Pacman(1, pacman_x_spawn, pacman_y_spawn)
+vie = 1
+pac_man =  Pacman(vie, pacman_x_spawn, pacman_y_spawn)
 fantome_red = Fantome(ecran[0]//2, ecran[1]//2, 0, 'red', (ecran[0]//2, ecran[1]//2), 'right')
 fantome_orange = Fantome(ecran[0]//2, ecran[1]//2, 0, 'orange', (ecran[0]//2, ecran[1]//2), 'left')
 fantome_blue = Fantome(ecran[0]//2, ecran[1]//2, 0, 'blue', (ecran[0]//2, ecran[1]//2), 'top')
@@ -48,25 +50,19 @@ pac_man.set_touch(False)
 
     #-------- GAME SETUP --------#
 
-game_statut = True
+game_statut = "Game" #Start, Game, End
 pygame.mixer.music.set_volume(0.2)
-pacman_original_sound.play(-1)
 
 
 pac_man.set_posx(pacman_x_spawn), pac_man.set_posy(pacman_y_spawn)
-pac_man.set_posx(60), pac_man.set_posy(60)
 
 
 for i in range(len(fantomes)):
     fantomes[i].set_start_movement(True)
 
     #-------- GAME LAUNCHED --------#
-def game(game_statut, can_eat):
-    while game_statut:
-        
-        if map.game_finish(pac_man):
-            game_statut = False
-
+def game(can_eat):
+    while map.game_finish(pac_man) == False:
         fenetre.fill([0,0,0])
         image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 255, 255))
         image_pt_de_vie = police.render("Vie : " + str(pac_man.get_vie()), 1, (255, 255, 255))
@@ -165,39 +161,40 @@ def game(game_statut, can_eat):
 
         pygame.display.update()
         time.sleep(0.1)
-    
+    if pac_man.get_win():
+        pass
+
+    else: 
+        pygame.mixer.stop()
+        pacman_dying_sound.play()
+        pacman_original_sound.stop()
+        pac_man.set_posx(pacman_x_spawn)
+        pac_man.set_posy(pacman_y_spawn)
+        pac_man.set_orientation("None")
+        for i in range(len(fantomes)):
+            fantomes[i].set_start_movement(True)
+            fantomes[i].set_posx(ecran[0]//2)
+            fantomes[i].set_posy(ecran[1]//2)
+
+        time.sleep(pacman_dying_sound.get_length())
+        pac_man.set_touch(False)
+        pacman_original_sound.play()
+
+#------------ SCREEN ------------#
+
+
+#------------ START SCREEN ------------#
+
+
 #------------ GAME SCREEN ------------#
-
-
-game(game_statut, can_eat)    
-pygame.mixer.stop()
-
+while True:
+    if game_statut == "Game":
+        pacman_original_sound.play(-1)
+        game(can_eat)
+        game_statut = "End"
+        pygame.mixer.stop()
 #------------ END GAME SCREEN ------------#
-
-
-
-game(game_statut, can_eat)    
-pygame.mixer.stop()
-
-#------------ END GAME SCREEN ------------#
-
-fenetre.fill([0,23,80])
-pac_man.set_win(True)
-end_text_win = police.render("Bravo ! Vous avez réussi le niveau", 1, (110, 255, 51)) 
-end_text_lose = police.render("Perdu", 1, (255, 51, 51)) 
-score_text = police.render("Vous avez fait " + str(pac_man.get_score()) + " points", 1 ,(255, 255, 255))
-
-if pac_man.get_win(): 
-    end_text = end_text_win
-else : end_text = end_text_lose
-fenetre.blit(end_text, (ecran[0]//2 - 150, ecran[1]//2 - 50))
-fenetre.blit(score_text, (ecran[0]//2 - 150, ecran[1]//2))
-pygame.display.flip()
-time.sleep(3)
-
-
-while True: 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.display.quit()
-            sys.exit()
+    elif game_statut == "End":
+            end_screen(pac_man.get_win(), pac_man.get_score(), ecran, fenetre, police)
+            game_statut = "Game"
+            pac_man.set_vie(vie)
