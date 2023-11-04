@@ -15,6 +15,7 @@ from Class.PacmanClass import Pacman
 from Class.MapClass import Map
 from Class.FantomeClass import Fantome
 from end_screen import end_screen
+from home_screen import home_screen
 
 
 #---------- VARIABLE ----------#
@@ -188,7 +189,9 @@ def game(can_eat):
 
 #------------ GAME SCREEN ------------#
 while True:
-    if game_statut == "Game":
+    if game_statut == "Start":
+        home_screen()
+    elif game_statut == "Game":
         pacman_original_sound.play(-1)
         game(can_eat)
         game_statut = "End"

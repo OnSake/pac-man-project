@@ -1,9 +1,16 @@
+#-------------------- PROJET PAC MAN --------------------#
+
+#--------------- END SCREEN ---------------#
+
+#---------- IMPORT ----------#
+
 import pygame
 pygame.init()
 import sys
 
+#---------- FONCTION ----------#
+
 def end_screen(win_statut, score, ecran, fenetre, police):
-  
 
   
   end_text_win = police.render("Bravo ! Vous avez réussi le niveau", 1, (110, 255, 51)) 
