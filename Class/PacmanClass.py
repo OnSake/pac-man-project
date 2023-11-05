@@ -182,7 +182,6 @@ class Pacman:
             if objet_fantome.get_orientation() == "right":
                 if objet_fantome.get_posx() - 25 <= self.get_posx() <= objet_fantome.get_posx() + 50 and objet_fantome.get_posy() == self.get_posy():
                     ghost_eat_object.play()
-                    self.set_vie(1)
                     self.set_score(200)
                     objet_fantome.set_malade(False)
                     objet_fantome.set_posx(ecran[0]//2)

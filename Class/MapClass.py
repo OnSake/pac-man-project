@@ -6,19 +6,25 @@
 
 import pygame
 from pygame.locals import *
-from Maps.map_1 import map as map_1
+from Maps.map_1 import map_edited as map_1
+from Maps.map_1 import map_origin as map_1_origin
 from Maps.map_2 import map as map_2
 pygame.init()
 
 maps = [map_1, map_2]
+maps_origin = [map_1_origin]
 #---------- CLASS ----------#
 class Map:
   def __init__(self, level, couleur):
     self.__level__ = level - 1
     self.__map_select__ = maps[self.get_level()]
     self.__couleur__ = couleur
+    self.__map_origin__ = maps_origin[self.get_level()]
 
   #-------- Get et Set --------#
+  def get_map_origin(self):
+     return self.__map_origin__
+
   def get_level(self):
     return self.__level__
 
@@ -30,6 +36,9 @@ class Map:
 
   def set_couleur(self, valeur):
     self.__couleur__ = valeur
+
+  def set_map_select(self, valeur):
+     self.__map_select__ = valeur
 
   def get_map_select(self):
      return self.__map_select__
@@ -63,10 +72,12 @@ class Map:
   def game_finish(self, objet_pacman):
     if objet_pacman.get_touch() == True and objet_pacman.get_vie() < 1:
       objet_pacman.set_win(False)
+      self.set_map_select(self.get_map_origin())
       return True
 
     for i in range(len(self.get_map_select())):
         if 1 in self.get_map_select()[i]:
            return False
     objet_pacman.set_win(True)
+    self.set_map_select(self.get_map_origin())
     return True

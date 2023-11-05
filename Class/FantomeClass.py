@@ -180,15 +180,6 @@ class Fantome:
             elif direction_random == 3: 
                 self.set_orientation("bottom")
 
-    """
-    def start_movement(self, ecran, map):
-        self.set_orientation("top")
-        if self.check_collision_top(ecran, map):
-            if randint(0, 1) == 0: 
-                self.set_orientation("right")
-            else : self.set_orientation("left")
-        self.set_start_movement(False)  
-    """
 
 
 

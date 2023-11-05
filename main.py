@@ -17,26 +17,26 @@ from Class.FantomeClass import Fantome
 from end_screen import end_screen
 from home_screen import home_screen
 
-
 #---------- VARIABLE ----------#
 ecran = 900, 960
 fenetre = pygame.display.set_mode(ecran)
 pygame.display.set_caption("Pac Man")
 pacman_x_spawn, pacman_y_spawn = 60, 60
+vie = 3
+can_eat = False
 
 #---------- OBJETS ----------#
-vie = 1
 pac_man =  Pacman(vie, pacman_x_spawn, pacman_y_spawn)
 fantome_red = Fantome(ecran[0]//2, ecran[1]//2, 0, 'red', (ecran[0]//2, ecran[1]//2), 'right')
 fantome_orange = Fantome(ecran[0]//2, ecran[1]//2, 0, 'orange', (ecran[0]//2, ecran[1]//2), 'left')
 fantome_blue = Fantome(ecran[0]//2, ecran[1]//2, 0, 'blue', (ecran[0]//2, ecran[1]//2), 'top')
 fantome_pink = Fantome(ecran[0]//2, ecran[1]//2, 0, 'pink', (ecran[0]//2, ecran[1]//2), 'bottom')
 fantomes = [fantome_red, fantome_orange, fantome_blue, fantome_pink]
-can_eat = False
 
 
 map = Map(1, (120, 132, 240))
 police = pygame.font.SysFont("dubai" ,30)
+pac_man.set_touch(False)
 
 #---------- SOUNDS EFFECTS ----------#
 pacman_original_sound = pygame.mixer.Sound('Musique\PacMan_Original_Theme.mp3')
@@ -44,25 +44,22 @@ pacman_dying_sound = pygame.mixer.Sound('Musique\PacMan_Dying.mp3')
 pacman_eating_sound = pygame.mixer.Sound('Musique\PacMan-Eating.mp3')
 pacman_eating_ghost_sound = pygame.mixer.Sound('Musique\PacMan_Eating_Ghost.mp3')
 
-pac_man.set_touch(False)
 
 
 #------------ GAME ------------#
 
     #-------- GAME SETUP --------#
 
-game_statut = "Game" #Start, Game, End
-pygame.mixer.music.set_volume(0.2)
-
-
+game_statut = "Start" #Start, Game, End
 pac_man.set_posx(pacman_x_spawn), pac_man.set_posy(pacman_y_spawn)
-
 
 for i in range(len(fantomes)):
     fantomes[i].set_start_movement(True)
 
     #-------- GAME LAUNCHED --------#
 def game(can_eat):
+
+
     while map.game_finish(pac_man) == False:
         fenetre.fill([0,0,0])
         image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 255, 255))
@@ -181,18 +178,25 @@ def game(can_eat):
         pac_man.set_touch(False)
         pacman_original_sound.play()
 
+
+
 #------------ SCREEN ------------#
 
-
 #------------ START SCREEN ------------#
+while True:
 
+
+    if game_statut == "Start":
+        home_screen(ecran, fenetre)
+        game_statut = "Game"
 
 #------------ GAME SCREEN ------------#
-while True:
-    if game_statut == "Start":
-        home_screen()
     elif game_statut == "Game":
+
         pacman_original_sound.play(-1)
+
+        print(pygame.mixer.music.get_volume())
+        map = Map(1, (120, 132, 240))
         game(can_eat)
         game_statut = "End"
         pygame.mixer.stop()
