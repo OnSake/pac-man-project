@@ -11,6 +11,26 @@ import sys
 #---------- FONCTION ----------#
 
 def end_screen(win_statut, score, ecran, fenetre, police):
+  """
+    Affiche un écran de fin de jeu avec le résultat et des boutons de réessai et de sortie.
+
+    @arguments:
+    win_statut (bool): Indique si le joueur a gagné (True) ou perdu (False).
+    score (int): Le score obtenu par le joueur.
+    ecran (tuple): Un tuple contenant les dimensions de l'écran (largeur, hauteur).
+    fenetre (pygame.Surface): La surface de la fenêtre de jeu où l'écran de fin sera affiché.
+    police (pygame.Font): La police de caractères utilisée pour le texte.
+
+    @returns:
+    bool: True si le joueur choisit de réessayer, sinon False.
+
+    Remarques:
+    Cette fonction affiche un écran de fin de jeu avec un message de victoire ou de défaite en fonction de win_statut.
+    Elle affiche également le score du joueur et des boutons de réessai et de sortie.
+    La fonction renvoie True si le joueur choisit de réessayer en cliquant sur le bouton de réessai,
+    sinon elle renvoie False si le joueur choisit de quitter en cliquant sur le bouton de sortie.
+    La fonction s'exécute dans une boucle infinie tant que l'écran de fin est ouvert. Pour quitter, l'utilisateur peut fermer la fenêtre.
+    """
 
   
   end_text_win = police.render("Bravo ! Vous avez réussi le niveau", 1, (110, 255, 51)) 

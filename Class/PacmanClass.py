@@ -89,6 +89,22 @@ class Pacman:
     #-------- Méthodes --------#
 
     def draw(self, surface):
+        """
+    Cette fonction est utilisée pour dessiner un personnage (probablement Pac-Man) sur une surface spécifiée en fonction de son orientation.
+
+    @arguments:
+        self: L'instance de l'objet PacMan ou du personnage que vous souhaitez dessiner.
+        surface: La surface (généralement une fenêtre de jeu) sur laquelle le personnage doit être dessiné.
+
+    @remarques:
+    - Cette fonction examine l'orientation du personnage (gauche, droite, haut, bas ou neutre) en fonction de laquelle elle choisit l'image appropriée à afficher.
+    - Les images utilisées pour le personnage dépendent des variables globales 'pac_man_img', 'pac_man_img_neutre', etc., qui doivent être définies ailleurs dans votre code.
+    - Lorsque l'orientation est "top" ou "bottom", la fonction effectue des rotations d'image pour afficher le personnage dans la direction correcte.
+    - Lorsque l'orientation est "left", la fonction effectue une inversion horizontale de l'image pour afficher le personnage dans la direction correcte.
+
+    
+    Cette fonction est essentielle pour afficher correctement le personnage dans un jeu et doit être appelée régulièrement pour mettre à jour l'apparence du personnage en fonction de son orientation.
+        """
         if self.get_orientation() == "None":
             surface.blit(pac_man_img_neutre, (self.get_posx(), self.get_posy()))
         elif self.get_orientation() == "right":
@@ -102,6 +118,27 @@ class Pacman:
 
 
     def move(self):
+        """
+    Cette fonction est responsable de déplacer un objet dans un environnement de jeu. Elle vérifie la position actuelle
+    de l'objet, son orientation et les éventuelles collisions, puis effectue le déplacement en conséquence.
+
+    Conditions de déplacement :
+    - Si la position en x de l'objet est inférieure à -30, l'objet est déplacé à la position 900 pour simuler un rebond à droite.
+    - Si la position en x de l'objet est supérieure à 910, l'objet est déplacé à la position -20 pour simuler un rebond à gauche.
+    - Selon l'orientation de l'objet (gauche, haut, droite, bas) et les informations de collision, l'objet peut être déplacé
+      ou son mouvement peut être restreint.
+
+    Les fonctions utilisées dans cette méthode sont des méthodes de l'objet actuel, telles que get_posx(), set_posx(),
+    get_orientation(), get_collision(), add_posx(), add_posy(), min_posx(), min_posy(). Il est recommandé de consulter
+    la documentation de ces méthodes pour une compréhension approfondie de leur fonctionnement.
+
+    Remarques :
+    - L'objet est autorisé à se déplacer horizontalement (posx) ou verticalement (posy) en fonction de son orientation et
+      de la détection de collision.
+    - Si aucune condition de collision ou d'orientation n'est remplie, les positions de l'objet en x et y ne sont pas modifiées.
+
+        """
+
         if self.get_posx() < -30:
             self.set_posx(900)
         elif self.get_posx() > 910:
@@ -122,6 +159,25 @@ class Pacman:
     
     
     def check_collision(self, ecran, map):
+        """
+    Cette fonction permet de vérifier les collisions entre un objet représenté par une instance de la classe à laquelle cette méthode appartient
+    et une carte de jeu.
+
+    @arguments :
+    - self : L'objet lui-même, une instance de la classe à laquelle cette méthode appartient.
+    - ecran : Une liste contenant les dimensions de l'écran de jeu, généralement au format [largeur, hauteur].
+    - map : Une matrice représentant la carte de jeu où chaque case contient une valeur indiquant la nature de l'obstacle ou du terrain.
+
+    Attributs mis à jour :
+    - Collision en direction de la droite (indice 2) : Indique s'il y a une collision à droite de l'objet.
+    - Collision en direction de la gauche (indice 0) : Indique s'il y a une collision à gauche de l'objet.
+    - Collision en direction du haut (indice 1) : Indique s'il y a une collision en haut de l'objet.
+    - Collision en direction du bas (indice 3) : Indique s'il y a une collision en bas de l'objet.
+
+    Remarque :
+    Les collisions sont détectées en fonction de la position de l'objet par rapport à la carte de jeu et de son orientation.
+
+        """
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 
@@ -155,6 +211,17 @@ class Pacman:
 
 
     def check_score(self, ecran, map):
+        """
+    Vérifie et met à jour le score du joueur en fonction de sa position sur l'écran et la carte du jeu.
+
+    @arguments:
+    - self: L'objet représentant le joueur.
+    - ecran: Une liste ou un tuple contenant les dimensions de l'écran sous la forme (largeur, hauteur).
+    - map: Une liste à deux dimensions représentant la carte du jeu. Cette carte contient des valeurs binaires où 1 signifie un élément collectible, et 0 signifie qu'il a déjà été collecté.
+
+    Description:
+    Cette fonction vérifie la position actuelle du joueur sur l'écran et détermine s'il est en train de collecter un élément sur la carte du jeu. Si la position du joueur est dans les limites de l'écran (0 < self.get_posx() < 900), la fonction examine la case correspondante sur la carte du jeu (map) pour voir si elle contient un élément collectible (valeur 1). Si c'est le cas, le score du joueur est augmenté de 10 points, et la case de la carte du jeu est mise à zéro pour indiquer que l'élément a été collecté.
+    """
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 
@@ -165,6 +232,24 @@ class Pacman:
             
             
     def check_malade(self, ecran, map):
+        """
+    Vérifie si le personnage est sur une case malade de la carte et effectue des actions en conséquence.
+
+    Cette fonction prend en compte la position du personnage sur l'écran (ecran) et la carte du jeu (map) pour déterminer s'il se trouve sur une case malade.
+    
+    @arguments :
+        - ecran (tuple) : Un tuple contenant les coordonnées (x, y) de l'écran où se trouve le personnage.
+        - map (list) : Une liste bidimensionnelle représentant la carte du jeu, où chaque case contient une valeur numérique (2 pour une case malade, 0 pour une case vide, etc.).
+
+    Actions effectuées :
+        - Si la position du personnage est à l'intérieur des limites de l'écran (0 < self.get_posx() < 900), la fonction vérifie la case correspondante sur la carte (map).
+        - Si la case sur la carte est égale à 2, cela signifie que le personnage se trouve sur une case malade.
+        - Dans ce cas, la fonction définira la capacité du personnage à manger sur True en utilisant "self.set_can_eat(True)".
+        - Elle augmentera également le score du personnage de 50 points en utilisant "self.set_score(50)".
+        - Enfin, elle mettra à jour la valeur de la case sur la carte en la mettant à 0 pour indiquer que la case a été "mangée" ou "traitée".
+
+    Note : Assurez-vous que les méthodes "self.get_posx()", "self.get_posy()", "self.set_can_eat(True)" et "self.set_score(50)" sont définies ailleurs dans votre code, car elles sont utilisées dans cette fonction.
+    """
         num1 = ecran[1]//32
         num2 = ecran[0]//30
         if 0 < self.get_posx() < 900 : #Eviter le out of range
@@ -174,6 +259,28 @@ class Pacman:
                 map[self.get_posy() // num1][self.get_posx() // num2] = 0
         
     def check_eat_ghost(self, objet_fantome, ecran, ghost_eat_object ):
+        """
+    Vérifie si le personnage du jeu peut manger un fantôme.
+
+    Cette fonction prend en compte plusieurs conditions pour déterminer si le personnage du jeu peut manger un fantôme. Les paramètres de la fonction sont utilisés comme suit :
+    
+    @arguments:
+        objet_fantome (Fantome): L'objet représentant le fantôme à vérifier.
+        ecran (tuple): Un tuple contenant les dimensions de l'écran de jeu (largeur, hauteur).
+        ghost_eat_object (objet_sonore): Un objet sonore à jouer lorsque le personnage mange un fantôme.
+
+    Conditions de vérification:
+    - Si le fantôme est malade et se déplace vers la droite et le personnage est suffisamment proche horizontalement, le personnage mange le fantôme et gagne des points.
+    - Si le fantôme est malade et se déplace vers la gauche et le personnage est suffisamment proche horizontalement, le personnage mange le fantôme, mais perd une vie.
+    - Si le fantôme est malade et se déplace vers le haut et le personnage est suffisamment proche verticalement, le personnage mange le fantôme, mais perd une vie.
+    - Si le fantôme est malade et se déplace vers le bas et le personnage est suffisamment proche verticalement, le personnage mange le fantôme, mais perd une vie.
+    - Si le fantôme est malade et se trouve à proximité horizontale et verticale du personnage, le personnage mange le fantôme, mais perd une vie.
+    - Si le fantôme n'est pas malade, mais se trouve à proximité du personnage dans la même cellule de la grille de jeu, le personnage perd une vie et est marqué comme touché.
+
+    Notes:
+    - La fonction met également à jour la position du fantôme, le remet au centre de l'écran et redémarre son mouvement si le personnage le mange.
+
+        """
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 

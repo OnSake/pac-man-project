@@ -34,7 +34,7 @@ fantome_pink = Fantome(ecran[0]//2, ecran[1]//2, 0, 'pink', (ecran[0]//2, ecran[
 fantomes = [fantome_red, fantome_orange, fantome_blue, fantome_pink]
 
 map = Map(1, (120, 132, 240))
-police = pygame.font.SysFont("dubai" ,30)
+police = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,30)
 pac_man.set_touch(False)
 
 #---------- SOUNDS EFFECTS ----------#
@@ -45,15 +45,19 @@ pacman_eating_ghost_sound = pygame.mixer.Sound('Musique\PacMan_Eating_Ghost.mp3'
 
 #-------- GAME FONCTION --------#
 def game(can_eat):
-
+    """
+    Permet de lancer une partie de PACMAN
+    @argument:
+        can_eat: variable qui permet de savoir si PACMAN peut manger des fantomes 
+    """
 
     while map.game_finish(pac_man) == False:
         fenetre.fill([0,0,0])
         image_score = police.render("Score : " + str(pac_man.get_score()), 1, (255, 255, 255))
         image_pt_de_vie = police.render("Vie : " + str(pac_man.get_vie()), 1, (255, 255, 255))
         map.dessiner_map(ecran, fenetre)
-        fenetre.blit(image_pt_de_vie, (800, 0))
-        fenetre.blit(image_score, (10, 0))
+        fenetre.blit(image_pt_de_vie, (750, 15))
+        fenetre.blit(image_score, (10, 15))
         pygame.display.flip()
 
 
@@ -146,7 +150,7 @@ def game(can_eat):
 
         pygame.display.update()
         time.sleep(0.1)
-        
+
     if pac_man.get_win() == False:
         pygame.mixer.stop()
         pacman_dying_sound.play()
@@ -202,3 +206,6 @@ while True:
             game_statut = "Game"
             vie = 3
             pac_man.set_vie(vie)
+
+
+"""1000 lignes sans commentaire"""

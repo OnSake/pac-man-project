@@ -47,6 +47,26 @@ class Map:
     #-------- Méthodes --------#
 
   def dessiner_map(self, ecran, fenetre):
+    """
+    Dessine la carte sur l'écran spécifié.
+    @arguments:
+        self (Class Map): Instance de la classe Map.
+        ecran (tuple): Tuple contenant les dimensions de l'écran (largeur, hauteur).
+        fenetre (Surface): Surface pygame sur laquelle dessiner la carte.
+
+    Description:
+        Cette fonction prend en entrée les dimensions de l'écran ainsi qu'une surface pygame
+        sur laquelle la carte sera dessinée. Elle parcourt ensuite les éléments de la carte
+        et les dessine en fonction de leur type.
+
+        Les éléments de la carte sont représentés par des entiers correspondant à leur type :
+        - 1 représente un élément de type 1 avec un rectangle noir et un cercle blanc de rayon 5.
+        - 2 représente un élément de type 2 avec un rectangle noir et un cercle blanc de rayon 10.
+        - 3 représente un élément de type 3 avec un rectangle de couleur définie par la méthode get_couleur().
+        - 4 représente un élément de type 4 avec un rectangle blanc.
+
+        Les dimensions de chaque élément sont déterminées en fonction de l'espace disponible sur l'écran.
+    """
     y_space = ecran[0]//30 #On crée des maps en 30x32 donc on divise la largeur de l'écran par 30
     x_space = ecran[1]//32 #On crée des maps en 30x32 donc on divise la hauteur de l'écran par 32
 
@@ -70,6 +90,16 @@ class Map:
                       pygame.draw.rect(fenetre, (255, 255, 255), (j * x_space, i * y_space, 30, 30))
 
   def game_finish(self, objet_pacman):
+    """
+    Vérifie les conditions de fin de jeu et met à jour les attributs en conséquence.
+
+    @arguments:
+        self (object): L'instance de la classe à laquelle cette méthode appartient.
+        objet_pacman (object): L'objet représentant le personnage principal du jeu.
+
+    Returns:
+        bool: True si le jeu est terminé, False sinon.
+    """
     if objet_pacman.get_touch() == True and objet_pacman.get_vie() < 1:
       objet_pacman.set_win(False)
       self.set_map_select(self.get_map_origin())

@@ -2,9 +2,34 @@ import pygame
 pygame.init()
 import sys
 
+#Code couleur 1) = #00113B 2) = #004F89
+
+
+
 def home_screen(ecran, fenetre):
-  police = pygame.font.SysFont("dubai", 50)
-  police_1 = pygame.font.SysFont("dubai" ,20)
+  """
+      Affiche l'écran d'accueil du jeu Pac-Man.
+
+      Cette fonction crée un écran d'accueil pour le jeu Pac-Man en utilisant Pygame.
+
+      @arguments :
+      - ecran (tuple) : Un tuple contenant les dimensions de l'écran du jeu (largeur, hauteur).
+      - fenetre (pygame.Surface) : La surface Pygame sur laquelle l'écran d'accueil sera affiché.
+
+      @returns :
+      - bool : Retourne True si le bouton "Play" est cliqué, indiquant que le joueur souhaite commencer le jeu.
+
+      La fonction effectue les actions suivantes :
+      1. Charge la police de caractères et la musique d'arrière-plan.
+      2. Affiche le fond d'écran, le texte de bienvenue et les informations sur le projet.
+      3. Affiche un bouton "Play" qui réagit au survol de la souris.
+      4. Gère les événements, tels que la fermeture de la fenêtre ou le clic sur le bouton "Play".
+      5. Arrête la musique lorsque le bouton "Play" est cliqué.
+    """
+
+  police = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,30)
+  police_1 = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,15)
+
 
   musique = pygame.mixer.Sound('Musique/PacMan_Home_Screen.mp3')
   musique.set_volume(1)
