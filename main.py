@@ -202,7 +202,7 @@ while True:
 #------------ END GAME SCREEN ------------#
 
     elif game_statut == "End":
-            end_screen(pac_man.get_win(), pac_man.get_score(), ecran, fenetre, police)
+            end_screen(pac_man.get_win(), pac_man.get_score(), ecran, fenetre)
             game_statut = "Game"
             vie = 3
             pac_man.set_vie(vie)

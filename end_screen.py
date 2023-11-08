@@ -10,7 +10,9 @@ import sys
 
 #---------- FONCTION ----------#
 
-def end_screen(win_statut, score, ecran, fenetre, police):
+
+
+def end_screen(win_statut, score, ecran, fenetre):
   """
     Affiche un écran de fin de jeu avec le résultat et des boutons de réessai et de sortie.
 
@@ -32,10 +34,14 @@ def end_screen(win_statut, score, ecran, fenetre, police):
     La fonction s'exécute dans une boucle infinie tant que l'écran de fin est ouvert. Pour quitter, l'utilisateur peut fermer la fenêtre.
     """
 
-  
-  end_text_win = police.render("Bravo ! Vous avez réussi le niveau", 1, (110, 255, 51)) 
-  end_text_lose = police.render("Perdu", 1, (255, 51, 51)) 
-  score_text = police.render("Vous avez fait " + str(score) + " points", 1 ,(255, 255, 255))
+  title_font = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,60)
+  score_font = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,60)
+  text_font = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,20)
+
+  end_text_win = title_font.render("Gagné", 1, (255, 199, 0)) 
+  end_text_lose = title_font.render("Perdu", 1, (255, 199, 0))
+  text = text_font.render("Vous avez fait", 1, (255, 255, 255)) 
+  score_text = score_font.render(str(score) + " points", 1 ,(255, 255, 255))
   
   retry_button = pygame.image.load('Texture/Buttons/Retry_Button.png')
   retry_button_pressed = pygame.image.load('Texture/Buttons/Retry_Button_pressed.png')
@@ -47,11 +53,11 @@ def end_screen(win_statut, score, ecran, fenetre, police):
 
 
   #Position du Rect Retry_Button
-  retry_button_rect.x = ecran[0]//5
-  retry_button_rect.y = ecran[0]//1.8
+  retry_button_rect.x = 112
+  retry_button_rect.y = 600
   #Position du Rect Quit_Button
-  quit_button_rect.x = 2.5*(ecran[0]//5)
-  quit_button_rect.y = ecran[0]//1.8
+  quit_button_rect.x = 531
+  quit_button_rect.y = 600
 
 
   while True:
@@ -60,11 +66,12 @@ def end_screen(win_statut, score, ecran, fenetre, police):
     
     if win_statut: 
         end_text = end_text_win
-        fenetre.blit(end_text, (ecran[0]//2 - 175, ecran[1]//2 - 150))
+        fenetre.blit(end_text, (280, 255))
     else : 
         end_text = end_text_lose
-        fenetre.blit(end_text, (ecran[0]//2 - 50, ecran[1]//2 - 150))
-    fenetre.blit(score_text, (ecran[0]//2 - 125, ecran[1]//2 - 100))
+        fenetre.blit(end_text, (280, 255))
+    fenetre.blit(text, (315, 380))
+    fenetre.blit(score_text, (210, 440))
     
     if retry_button_rect.collidepoint(pygame.mouse.get_pos()):
       fenetre.blit(retry_button_pressed, retry_button_rect)
@@ -88,4 +95,3 @@ def end_screen(win_statut, score, ecran, fenetre, police):
             pygame.display.quit()
             sys.exit()
             
-      

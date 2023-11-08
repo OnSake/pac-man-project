@@ -27,32 +27,35 @@ def home_screen(ecran, fenetre):
       5. Arrête la musique lorsque le bouton "Play" est cliqué.
     """
 
-  police = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,30)
-  police_1 = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,15)
+  title_font = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,60)
+  subtitle_font = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,45)
+  text_font = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,25)
 
 
   musique = pygame.mixer.Sound('Musique/PacMan_Home_Screen.mp3')
   musique.set_volume(1)
   musique.play(-1, 0, 500)
 
-  bg_img = pygame.transform.flip(pygame.transform.scale(pygame.image.load('Texture/Background.jpg'), ecran), True, False)
   play_button = pygame.image.load('Texture/Buttons/Play_Button.png')
   play_button_pressed = pygame.image.load('Texture/Buttons/Play_Button_Pressed.png')
 
 
   play_button_rect = play_button.get_rect()
-  play_button_rect.x = ecran[0]//2.75
-  play_button_rect.y = ecran[1]//1.5
+  play_button_rect.x = 330
+  play_button_rect.y = 480
 
 
-  project_text = police_1.render("Projet NSI", 1, (255, 255, 255))
-  project_text_1 = police_1.render("Jules MULLER - Thibault REGALLAUD - Cédric GUIGNER", 1, (255, 255, 255))
-  welcome_text = police.render("Bienvenue sur PACMAN", 3,  (255, 255, 0))
+  welcome_text = title_font.render("Welcome", 3,  (255, 199, 0))
+  to_text = text_font.render("TO", 3, (255, 255, 255))
+  pacman_text = subtitle_font.render("pacman", 3, ((255, 199, 0)))
+  team_text = text_font.render("BY Jules - cédric - thibault", 1, (255, 255, 255))
+
   while True:
-      fenetre.blit(bg_img, (0, -100))
-      fenetre.blit(welcome_text, (ecran[0]//3.5, 150))
-      fenetre.blit(project_text, (0, 0))
-      fenetre.blit(project_text_1, (0, 25))
+      fenetre.fill([0, 17, 59])
+      fenetre.blit(welcome_text, (225, 145))
+      fenetre.blit(to_text, (430, 258))
+      fenetre.blit(pacman_text, (300, 316))
+      fenetre.blit(team_text, (180, 765))
       
       if play_button_rect.collidepoint(pygame.mouse.get_pos()):
         fenetre.blit(play_button_pressed, play_button_rect)
