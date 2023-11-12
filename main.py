@@ -21,16 +21,16 @@ from home_screen import home_screen
 ecran = 900, 960
 fenetre = pygame.display.set_mode(ecran)
 pygame.display.set_caption("Pac Man")
-pacman_x_spawn, pacman_y_spawn = 60, 60
+pacman_x_spawn, pacman_y_spawn = 420, 540
 vie = 3
 can_eat = False
 
 #---------- OBJETS ----------#
 pac_man =  Pacman(vie, pacman_x_spawn, pacman_y_spawn)
-fantome_red = Fantome(ecran[0]//2, ecran[1]//2, 0, 'red', (ecran[0]//2, ecran[1]//2), 'right')
-fantome_orange = Fantome(ecran[0]//2, ecran[1]//2, 0, 'orange', (ecran[0]//2, ecran[1]//2), 'left')
-fantome_blue = Fantome(ecran[0]//2, ecran[1]//2, 0, 'blue', (ecran[0]//2, ecran[1]//2), 'top')
-fantome_pink = Fantome(ecran[0]//2, ecran[1]//2, 0, 'pink', (ecran[0]//2, ecran[1]//2), 'bottom')
+fantome_red = Fantome(ecran[0]//2, ecran[1]//2, 'red', (ecran[0]//2, ecran[1]//2), 'right')
+fantome_orange = Fantome(ecran[0]//2, ecran[1]//2, 'orange', (ecran[0]//2, ecran[1]//2), 'left')
+fantome_blue = Fantome(ecran[0]//2, ecran[1]//2, 'blue', (ecran[0]//2, ecran[1]//2), 'top')
+fantome_pink = Fantome(ecran[0]//2, ecran[1]//2, 'pink', (ecran[0]//2, ecran[1]//2), 'bottom')
 fantomes = [fantome_red, fantome_orange, fantome_blue, fantome_pink]
 
 map = Map(1, (120, 132, 240))
@@ -62,8 +62,6 @@ def game(can_eat):
 
 
 
-
-
         pac_man.check_collision(ecran, map.get_map_select())
         pac_man.move()
         pac_man.draw(fenetre)
@@ -90,17 +88,19 @@ def game(can_eat):
 
 
         if pac_man.get_can_eat():
+            pacman_eating_sound.stop()
             pacman_eating_sound.play(-1)
             pacman_original_sound.set_volume(0.0)
             can_eat = True
             tps_zero = pygame.time.get_ticks()
             pac_man.set_can_eat(False)
+            for i in range(len(fantomes)):
+                fantomes[i].set_malade(True)
+                fantomes[i].set_finish_heal(False)
 
 
         #Timer pour manger
         if can_eat == True and (pygame.time.get_ticks() - tps_zero) <=8000 :
-            for i in range(len(fantomes)):
-                fantomes[i].set_malade(True)
             if (pygame.time.get_ticks() - tps_zero) >= 5000:
                 for i in range(len(fantomes)):
                     fantomes[i].set_finish_heal(True)
@@ -124,6 +124,7 @@ def game(can_eat):
                         fantomes[i].set_orientation("right")
                     else : fantomes[i].set_orientation("left")
                     fantomes[i].set_start_movement(False)
+                    
             fantomes[i].change_direction(fantomes[i].check_collision(ecran, map.get_map_select()))
             fantomes[i].mvt()
             fantomes[i].draw(fenetre)
@@ -187,7 +188,7 @@ while True:
 #------------ START SCREEN ------------#
 
     if game_statut == "Start":
-        home_screen(ecran, fenetre)
+        home_screen(fenetre)
         game_statut = "Game"
 
 #------------ GAME SCREEN ------------#
@@ -206,6 +207,3 @@ while True:
             game_statut = "Game"
             vie = 3
             pac_man.set_vie(vie)
-
-
-"""1000 lignes sans commentaire"""

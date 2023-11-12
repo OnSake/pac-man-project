@@ -8,10 +8,9 @@ import pygame
 from pygame.locals import *
 from Maps.map_1 import map_edited as map_1
 from Maps.map_1 import map_origin as map_1_origin
-from Maps.map_2 import map as map_2
 pygame.init()
 
-maps = [map_1, map_2]
+maps = [map_1]
 maps_origin = [map_1_origin]
 #---------- CLASS ----------#
 class Map:
@@ -81,7 +80,6 @@ class Map:
         elif self.get_map_select()[i][j] == 2:
             pygame.draw.rect(fenetre, (0, 0, 0), (j * x_space, i * y_space, 30, 30))
             pygame.draw.circle(fenetre, (255, 255, 255), (int(j * x_space + (x_space/2)), int(i * y_space + (y_space/2))), 10)
-
 
         elif self.get_map_select()[i][j] == 3:
             pygame.draw.rect(fenetre, self.get_couleur(), (j * x_space, i * y_space, 30, 30))

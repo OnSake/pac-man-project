@@ -5,16 +5,14 @@ import pygame
 
 class Fantome:
 
-    def __init__(self,positionx,positiony,mort_fantome,couleur,respawn,orientation):
+    def __init__(self,positionx,positiony,couleur,respawn,orientation):
         self.__pos_x__ = positionx
         self.__pos_y__ = positiony
-        self.__mort__ = mort_fantome
         self.__couleur__ = couleur
         self.__respawn__ = respawn
         self.__orientation__ = orientation
         self.__malade__ = False 
         self.__finish_heal__ = False
-        self.__liste_orientation__= ["left", "top", "right", "bottom", "None"]
         self.__start_movement__ = False
 
     #-------- Get et Set --------#
@@ -23,9 +21,6 @@ class Fantome:
 
     def set_start_movement(self, valeur):
         self.__start_movement__ = valeur
-
-    def get_liste_orientation(self):
-        return self.__liste_orientation__
 
     def get_finish_heal(self):
         return self.__finish_heal__
@@ -60,11 +55,7 @@ class Fantome:
     def get_couleur(self):
         return self.__couleur__
 
-    def get_mort(self):
-        return self.__mort__
 
-    def set_mort(self, valeur):
-        self.__mort__ = valeur
 
     #-------- Méthodes --------#
 

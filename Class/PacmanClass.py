@@ -18,7 +18,6 @@ class Pacman:
         self.__pos_y__ = pos_y
         self.__can_eat__ = False
         self.__orientation__ = orientation
-        self.__couleur__ = (255, 255, 0)
         self.__score__ = 0
         self.__check_collision__ = [False, False, False, False]
         self.__touch__ = False
@@ -72,12 +71,6 @@ class Pacman:
 
     def set_orientation(self, valeur):
         self.__orientation__ = valeur
-
-    def get_couleur(self):
-        return self.__couleur__
-
-    def set_couleur(self, valeur):
-        self.__couleur__ = valeur
 
     def get_score(self):
         return self.__score__
@@ -143,6 +136,7 @@ class Pacman:
             self.set_posx(900)
         elif self.get_posx() > 910:
             self.set_posx(-20)
+        
         if self.get_orientation() == "left" and self.get_collision(0):
                 self.min_posx(15)
         elif self.get_orientation() == "top" and self.get_collision(1):
@@ -221,7 +215,7 @@ class Pacman:
 
     Description:
     Cette fonction vérifie la position actuelle du joueur sur l'écran et détermine s'il est en train de collecter un élément sur la carte du jeu. Si la position du joueur est dans les limites de l'écran (0 < self.get_posx() < 900), la fonction examine la case correspondante sur la carte du jeu (map) pour voir si elle contient un élément collectible (valeur 1). Si c'est le cas, le score du joueur est augmenté de 10 points, et la case de la carte du jeu est mise à zéro pour indiquer que l'élément a été collecté.
-    """
+        """
         num1 = ecran[1]//32
         num2 = ecran[0]//30
 
@@ -246,10 +240,9 @@ class Pacman:
         - Si la case sur la carte est égale à 2, cela signifie que le personnage se trouve sur une case malade.
         - Dans ce cas, la fonction définira la capacité du personnage à manger sur True en utilisant "self.set_can_eat(True)".
         - Elle augmentera également le score du personnage de 50 points en utilisant "self.set_score(50)".
-        - Enfin, elle mettra à jour la valeur de la case sur la carte en la mettant à 0 pour indiquer que la case a été "mangée" ou "traitée".
+        - Elle mettra à jour la valeur de la case sur la carte en la mettant à 0 pour indiquer que la case a été "mangée" ou "traitée".
 
-    Note : Assurez-vous que les méthodes "self.get_posx()", "self.get_posy()", "self.set_can_eat(True)" et "self.set_score(50)" sont définies ailleurs dans votre code, car elles sont utilisées dans cette fonction.
-    """
+        """
         num1 = ecran[1]//32
         num2 = ecran[0]//30
         if 0 < self.get_posx() < 900 : #Eviter le out of range
@@ -258,6 +251,7 @@ class Pacman:
                 self.set_score(50)
                 map[self.get_posy() // num1][self.get_posx() // num2] = 0
         
+
     def check_eat_ghost(self, objet_fantome, ecran, ghost_eat_object ):
         """
     Vérifie si le personnage du jeu peut manger un fantôme.
@@ -287,7 +281,7 @@ class Pacman:
         if objet_fantome.get_malade() == True:
 
             if objet_fantome.get_orientation() == "right":
-                if objet_fantome.get_posx() - 25 <= self.get_posx() <= objet_fantome.get_posx() + 50 and objet_fantome.get_posy() == self.get_posy():
+                if objet_fantome.get_posx() - 25 <= self.get_posx() <= objet_fantome.get_posx() + 50 and objet_fantome.get_posy() - 25 <= self.get_posy() <= objet_fantome.get_posy() + 25:
                     ghost_eat_object.play()
                     self.set_score(200)
                     objet_fantome.set_malade(False)
@@ -296,9 +290,8 @@ class Pacman:
                     objet_fantome.set_start_movement(True)
 
             elif objet_fantome.get_orientation() == "left":
-                if objet_fantome.get_posx() - 50 <= self.get_posx() <= objet_fantome.get_posx() + 25 and objet_fantome.get_posy() == self.get_posy():
+                if objet_fantome.get_posx() - 50 <= self.get_posx() <= objet_fantome.get_posx() + 25 and objet_fantome.get_posy() - 25 <= self.get_posy() <= objet_fantome.get_posy() + 25:
                     ghost_eat_object.play()
-                    self.set_vie(1)
                     self.set_score(200)
                     objet_fantome.set_malade(False)
                     objet_fantome.set_posx(ecran[0]//2)
@@ -306,9 +299,8 @@ class Pacman:
                     objet_fantome.set_start_movement(True)
             
             elif objet_fantome.get_orientation() == "top":
-                if objet_fantome.get_posx() == self.get_posx() and objet_fantome.get_posy() - 50 <= self.get_posy() <= objet_fantome.get_posy() + 25:
+                if objet_fantome.get_posx() - 25 <= self.get_posx() <= objet_fantome.get_posx() + 25 and objet_fantome.get_posy() - 50 <= self.get_posy() <= objet_fantome.get_posy() + 25:
                     ghost_eat_object.play()
-                    self.set_vie(1)
                     self.set_score(200)
                     objet_fantome.set_malade(False)
                     objet_fantome.set_posx(ecran[0]//2)
@@ -316,9 +308,8 @@ class Pacman:
                     objet_fantome.set_start_movement(True)
 
             elif objet_fantome.get_orientation() == "bottom":
-                if objet_fantome.get_posx() == self.get_posx() and objet_fantome.get_posy() - 25 <= self.get_posy() <= objet_fantome.get_posy() + 50:
+                if objet_fantome.get_posx() - 25 <= self.get_posx() <= objet_fantome.get_posx() + 25 and objet_fantome.get_posy() - 25 <= self.get_posy() <= objet_fantome.get_posy() + 50:
                     ghost_eat_object.play()
-                    self.set_vie(1)
                     self.set_score(200)
                     objet_fantome.set_malade(False)
                     objet_fantome.set_posx(ecran[0]//2)
@@ -328,7 +319,6 @@ class Pacman:
 
             if  objet_fantome.get_posx() - 25 <= self.get_posx() <= objet_fantome.get_posx() + 25 and objet_fantome.get_posy() - 25 <= self.get_posy() <= objet_fantome.get_posy() + 25:
                 ghost_eat_object.play()
-                self.set_vie(1)
                 self.set_score(200)
                 objet_fantome.set_malade(False)
                 objet_fantome.set_posx(ecran[0]//2)

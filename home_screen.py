@@ -6,14 +6,13 @@ import sys
 
 
 
-def home_screen(ecran, fenetre):
+def home_screen(fenetre):
   """
       Affiche l'écran d'accueil du jeu Pac-Man.
 
       Cette fonction crée un écran d'accueil pour le jeu Pac-Man en utilisant Pygame.
 
       @arguments :
-      - ecran (tuple) : Un tuple contenant les dimensions de l'écran du jeu (largeur, hauteur).
       - fenetre (pygame.Surface) : La surface Pygame sur laquelle l'écran d'accueil sera affiché.
 
       @returns :
@@ -32,9 +31,6 @@ def home_screen(ecran, fenetre):
   text_font = pygame.font.Font("Fonts/NEW UPDATED VERSION/horizon.otf" ,25)
 
 
-  musique = pygame.mixer.Sound('Musique/PacMan_Home_Screen.mp3')
-  musique.set_volume(1)
-  musique.play(-1, 0, 500)
 
   play_button = pygame.image.load('Texture/Buttons/Play_Button.png')
   play_button_pressed = pygame.image.load('Texture/Buttons/Play_Button_Pressed.png')
